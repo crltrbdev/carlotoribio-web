@@ -213,11 +213,11 @@ No ReactMarkdown being used.`;
             </div>
 
             {/* [CT DEBUG] */}
-            {/* <p style={{color: 'red'}}>
+            <p style={{color: 'red'}}>
                 Remaining Questions: {tokenCount} <br />
                 Reset time: {cookieManager.getTokenResetTime()} <br />
                 Time to Reset: {cookieManager.getCountdownToTokenReset()}
-            </p> */}
+            </p>
 
             <div className="technical-skills-wrapper">
                 <div className="skills-container">
