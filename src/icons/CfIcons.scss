@@ -1,0 +1,36 @@
+@import "src/assets/styles/variables.scss";
+
+svg {
+    &.icon {
+        height: 50px;
+        color: $dotio-color;
+        transition: all .25s ease-in-out;
+    }
+}
+
+.circle-icon-wrapper {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+
+    .circle {
+        width: 135px;
+        height: 135px;
+        border: 2px solid white;
+        border-radius: 50%;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center center;
+    }
+
+    .icon-text {
+        margin-top: 3px;
+        max-width: 75px;
+        text-align: center;
+        font-size: 1.2em;
+        align-self: center;
+        line-height: 1.4em;
+        -webkit-text-stroke: .25px #000000;
+    }
+}

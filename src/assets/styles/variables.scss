@@ -1,0 +1,37 @@
+$logo-blue-primary: #205373;
+$logo-blue-secondary: #2BBCED;
+
+// $dotio-color: #16161d;
+$dotio-color: #16191d;
+$dotio-color-light: lighten($dotio-color, 10%);
+$dotio-color-lighter: lighten($dotio-color, 15%);
+$dotio-color-lightest: lighten($dotio-color, 20%);
+$dotio-color-light-25: lighten($dotio-color, 25%);
+$dotio-color-light-30: lighten($dotio-color, 30%);
+$dotio-color-light-40: lighten($dotio-color, 40%);
+$dotio-color-light-50: lighten($dotio-color, 50%);
+$dotio-color-light-70: lighten($dotio-color, 70%);
+
+$palette-primary: $dotio-color;
+$palette-secondary: $dotio-color-light-70;
+$palette-accent: #DA1212;
+$palette-contrast: #d4d4d4;
+$palette-clear: #efefef;
+
+$default-distance: 20px;
+
+$color-dark-bg: $palette-primary;
+
+$color-light-text: lighten($palette-primary, 80%);
+$color-dark-text: $palette-primary;
+
+$color-border: $palette-primary;
+$color-error: #d16969;
+$color-warning: #cca700;
+$color-success: #00a4a4;
+
+
+$accent-color: #1d1c1c;
+$accent-color-lighter: lighten($accent-color, 25%);
+
+$disabled-color: #888;

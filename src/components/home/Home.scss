@@ -1,0 +1,184 @@
+@import "src/assets/styles/variables.scss";
+
+$header-height: 175px;
+
+.home-wrapper {
+    display: flex;
+    flex-direction: column;
+
+    header {
+        padding-left: 10px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: $default-distance;
+        flex-grow: 0;
+        flex-shrink: 1;
+        height: $header-height;
+
+        .profile-picture {
+            
+            .profile-pic-container {
+                border: 1px solid $color-border;
+                border-radius: 50%;
+                height: $header-height - 25;
+                width: $header-height - 25;
+                overflow: hidden;
+
+                img {
+                    height: $header-height - 25;
+                    width: $header-height - 25;
+                }
+            }
+        }
+
+        .profile-info {
+            padding: 0;
+            margin: 0 10px;
+            flex-grow: 1;
+
+            .name-role {
+                label {
+                    display: block;
+                }
+            }
+
+            .title {
+                margin-top: 5px;
+                font-size: 3.8em;
+                color: $color-dark-text;
+            }
+
+            .subtitle {
+                margin-top: -10px;
+                margin-left: 2px;
+                color: darken($color-light-text, 25%);
+                font-size: 1.5em;
+            }
+
+            .summary {
+                margin-top: 2px;
+                margin-bottom: 10px;
+                margin-left: 2px;
+                color: darken($color-light-text, 50%);
+                font-size: .9em;
+            }
+        }
+
+        .social {
+            display: flex;
+            flex-direction: column;
+            padding: 0px 25px;
+            background-color: $palette-secondary;
+            height: 100%;
+            flex-grow: 0;
+            flex-shrink: 0;
+            gap: 15px;
+            border-left: 1px solid $color-border;
+            justify-content: center;
+
+            .linkedin {
+                height: 35px;
+            }
+
+            .github {
+                height: 35px;
+            }
+
+            .resume {
+                height: 35px;
+            }
+        }
+    }
+
+    .main-container {
+        display: flex;
+        flex-direction: column;
+        background-color: $color-dark-bg;
+        flex-grow: 1;
+        align-items: center;
+        border-top: 1px solid $color-border;
+
+        .logo-image {
+            width: 175px;
+            margin: 10px auto 2px;
+
+            img {
+                height: inherit;
+                width: inherit;
+            }
+        }
+
+        .chat-container {
+            overflow: hidden;
+            height: 100%;
+            width: 100%;
+        }
+    }
+
+    @media only screen and (max-width: 768px) {
+        $header-height-shrunk: $header-height * .65;
+
+        header {
+            gap: 10px;
+            padding: 0;
+            margin-top: -8px;
+            margin-left: 8px;
+            height: $header-height-shrunk + 15;
+            justify-content: center;
+            align-items: center;
+            justify-items: center;
+
+            .profile-picture {
+                width: $header-height-shrunk - 15;
+
+                .profile-pic-container {
+                    height: $header-height-shrunk - 15;
+                    width: $header-height-shrunk - 15;
+
+                    img {
+                        object-fit: contain;
+                        height: $header-height-shrunk - 15;
+                        width: $header-height-shrunk - 15;
+                        object-position: 0 0;
+                    }
+                }
+            }
+
+            .profile-info {
+                padding: 0;
+                margin: 0;
+                height: auto;
+                flex-basis: 66%;
+
+                .title {
+                    font-size: 1.5em;
+                }
+
+                .subtitle {
+                    font-size: 0.9em;
+                    margin: 2px 0;
+                }
+
+                .summary {
+                    color: darken($color-light-text, 50%);
+                    font-size: .75em;
+                    display: flex;
+                }
+            }
+
+            .social {
+                display: none;
+            }
+        }
+
+        .main-container {
+            border-top: 0px;
+            padding: 0;
+
+            .logo-image {
+                display: none;
+            }
+        }
+    }
+}

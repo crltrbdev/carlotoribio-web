@@ -1,0 +1,51 @@
+@import "src/assets/styles/variables.scss";
+
+.footer-wrapper {
+    border-top: solid 1px $color-border;
+    padding: 10px 0;
+    display: flex;
+    
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    .footer-border {
+        margin: 0 auto;
+    }
+
+    .poweredByContainer {
+        text-align: center;
+
+        .poweredBy {
+            height: 25px;
+        }
+    }
+
+    .copyright {
+        text-align: center;
+        font-size: .75em;
+    }
+
+    @media screen and (max-width: 767px) {
+        padding: 5px 0;
+        gap: 8px;
+
+        .footer-border {
+            margin: 0 auto;
+        }
+
+        .copyright {
+            text-align: center;
+            font-size: .3em;
+        }
+
+        .poweredByContainer {
+            text-align: center;
+
+            .poweredBy {
+                height: 18px;
+            }
+        }
+    }
+}
