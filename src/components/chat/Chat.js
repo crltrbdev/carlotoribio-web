@@ -46,7 +46,8 @@ Want to learn more about Carlo? **Just ask!**`;
         const greetingChatItem = {
             chatId: uuidv4(),
             itemType: 'streamAnswer',
-            finalAnswer: 'greeting'
+            finalAnswer: greeting,
+            setIsStreaming: false
         };
 
         setChatItems([greetingChatItem]);
@@ -215,11 +216,11 @@ Want to learn more about Carlo? **Just ask!**`;
             </div>
 
             {/* [CT DEBUG] */}
-            <p >
+            {/* <p>
                 <span style={{marginRight:30, color: 'red'}}>Remaining Questions: {tokenCount}</span>
                 <span style={{marginRight:30, color: 'red'}}>Reset time: {cookieManager.getTokenResetTime()}</span>
                 <span style={{marginRight:30, color: 'red'}}>Time to Reset: {cookieManager.getCountdownToTokenReset()}</span>
-            </p>
+            </p> */}
 
             <div className="technical-skills-wrapper">
                 <div className="skills-container">
