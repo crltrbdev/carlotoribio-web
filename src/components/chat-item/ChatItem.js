@@ -74,7 +74,7 @@ function StreamChatItem(props) {
         <div className={`stream-item-wrapper ${direction}`}>
             <CfAIChatBotImg className='answer-icon' />
             <div className={'chat-text' + (isStreaming ? ' is-streaming' : '')}>
-                {answer}
+                {answer}  + hi
             </div>
         </div>
     </>

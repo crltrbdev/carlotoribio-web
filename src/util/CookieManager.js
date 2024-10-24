@@ -48,7 +48,7 @@ class CookieManager {
     }
 
     canAskQuestion() {
-        return true || this.getCookie(tokenCookieName) > 0 || this.getSecondsToReset() <= 0;
+        return this.getCookie(tokenCookieName) > 0 || this.getSecondsToReset() <= 0;
     }
 
     getSecondsToReset() {

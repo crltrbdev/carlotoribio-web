@@ -37,14 +37,16 @@ function Chat() {
         }
 
         const greeting = `
-This is a greeting test.
+**Carlo** is a seasoned **software architect** and **engineer** with over ten years dedicated to crafting enterprise solutions. He has worked on a range of projects across various industries, including **Finance**, **Healthcare**, **Telecoms** and **Video Game**.
 
-No ReactMarkdown being used.`;
+His technical knowledge spans **Java / Spring Boot**, **.NET**, **React**, **Angular**, **Mobile development**, **Cloud platforms** and others. Currently, he is developing an indie video game, where he mixes his software development and artistic expression.
+
+Want to learn more about Carlo? **Just ask!**`;
 
         const greetingChatItem = {
             chatId: uuidv4(),
             itemType: 'streamAnswer',
-            finalAnswer: "hi"
+            finalAnswer: 'greeting'
         };
 
         setChatItems([greetingChatItem]);
@@ -213,11 +215,11 @@ No ReactMarkdown being used.`;
             </div>
 
             {/* [CT DEBUG] */}
-            <p style={{color: 'red'}}>
+            {/* <p style={{color: 'red'}}>
                 Remaining Questions: {tokenCount} <br />
                 Reset time: {cookieManager.getTokenResetTime()} <br />
                 Time to Reset: {cookieManager.getCountdownToTokenReset()}
-            </p>
+            </p> */}
 
             <div className="technical-skills-wrapper">
                 <div className="skills-container">
