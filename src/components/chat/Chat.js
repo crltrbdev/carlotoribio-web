@@ -41,12 +41,12 @@ function Chat() {
 
 His technical knowledge spans **Java / Spring Boot**, **.NET**, **React**, **Angular**, **Mobile development**, **Cloud platforms** and others. Currently, he is developing an indie video game, where he mixes his software development and artistic expression.
 
-Want to learn more about Carlo? **Just ask!** `;
+Want to learn more about Carlo? **Just ask!**`;
 
         const greetingChatItem = {
             chatId: uuidv4(),
             itemType: 'streamAnswer',
-            finalAnswer: greeting
+            finalAnswer: "hi"
         };
 
         setChatItems([greetingChatItem]);
