@@ -71,10 +71,9 @@ $mobile-font-size: .9em;
     }
 
     .chat-text {
-        * {
-            color: $palette-clear;
-            line-height: 1.2;
-        }
+        
+        color: $palette-clear;
+        line-height: 1.2;
     }
 
     &.row {

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import parse from 'html-react-parser'
-import ReactMarkdown from 'react-markdown';
 
 import { CfUserChatImg, CfAIChatBotImg } from '../../icons/CfIcons';
 
@@ -74,9 +73,9 @@ function StreamChatItem(props) {
     return <>
         <div className={`stream-item-wrapper ${direction}`}>
             <CfAIChatBotImg className='answer-icon' />
-            <ReactMarkdown className={'chat-text' + (isStreaming ? ' is-streaming' : '')}>
+            <div className={'chat-text' + (isStreaming ? ' is-streaming' : '')}>
                 {answer}
-            </ReactMarkdown>
+            </div>
         </div>
     </>
 }

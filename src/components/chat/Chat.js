@@ -37,11 +37,9 @@ function Chat() {
         }
 
         const greeting = `
-**Carlo** is a seasoned **software architect** and **engineer** with over ten years dedicated to crafting enterprise solutions. He has worked on a range of projects across various industries, including **Finance**, **Healthcare**, **Telecoms** and **Video Game**.
+This is a greeting test.
 
-His technical knowledge spans **Java / Spring Boot**, **.NET**, **React**, **Angular**, **Mobile development**, **Cloud platforms** and others. Currently, he is developing an indie video game, where he mixes his software development and artistic expression.
-
-Want to learn more about Carlo? **Just ask!**`;
+No ReactMarkdown being used.`;
 
         const greetingChatItem = {
             chatId: uuidv4(),
