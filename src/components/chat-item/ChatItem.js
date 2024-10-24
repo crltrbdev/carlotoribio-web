@@ -55,8 +55,8 @@ function StreamChatItem(props) {
         }
 
         async function streamAnswer() {
-            if (!chatItemData.isStreamingAnswer) {
-                chatItemData.isStreamingAnswer = true;
+            if (!chatItemData.isStreaming) {
+                chatItemData.isStreaming = true;
                 
                 if (chatItemData.streamFunction) {
                     chatItemData.finalAnswer = await chatItemData.streamFunction(chatItemData);

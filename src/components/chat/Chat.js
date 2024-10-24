@@ -47,7 +47,7 @@ Want to learn more about Carlo? **Just ask!**`;
             chatId: uuidv4(),
             itemType: 'streamAnswer',
             finalAnswer: greeting,
-            isStreaming: false
+            isStreaming: true
         };
 
         setChatItems([greetingChatItem]);
