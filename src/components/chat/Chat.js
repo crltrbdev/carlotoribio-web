@@ -215,11 +215,11 @@ Want to learn more about Carlo? **Just ask!**`;
             </div>
 
             {/* [CT DEBUG] */}
-            {/* <p style={{color: 'red'}}>
-                Remaining Questions: {tokenCount} <br />
-                Reset time: {cookieManager.getTokenResetTime()} <br />
-                Time to Reset: {cookieManager.getCountdownToTokenReset()}
-            </p> */}
+            <p >
+                <span style={{marginRight:30, color: 'red'}}>Remaining Questions: {tokenCount}</span>
+                <span style={{marginRight:30, color: 'red'}}>Reset time: {cookieManager.getTokenResetTime()}</span>
+                <span style={{marginRight:30, color: 'red'}}>Time to Reset: {cookieManager.getCountdownToTokenReset()}</span>
+            </p>
 
             <div className="technical-skills-wrapper">
                 <div className="skills-container">
