@@ -37,6 +37,7 @@ function Chat() {
             itemType: 'streamAnswer',
             streamFunction: async (chatItemData) => {
                 chatItemData.setIsStreaming(true);
+                setIsWaitingForAnswer(true);
 
                 const words = greeting.split(' ');
                 let currentAnswer = '';
@@ -182,8 +183,9 @@ function handleTokensDepleted() {
     const countdown = cookieManager.getCountdownToTokenReset(true, true);
 
     let answer = NO_TOKENS_PROMPT
-        .replace('{0}', RESUME_LINK)
-        .replace('{1}', countdown);
+        .replace('{0}', cookieManager.getMaxTokens())
+        .replace('{1}', RESUME_LINK)
+        .replace('{2}', countdown);
 
     const fakeStreamFunction = async (chatItemData) => {
         chatItemData.setIsStreaming(true);
@@ -320,9 +322,14 @@ return <>
             <div className='suggestions-container'>
                 <FaCaretLeft className="arrow-left" onClick={handleScrollLeft} />
                 <ul ref={ulScrollRef} className="prompt-suggestions">
+                <li>
+                        <button onClick={handlePromptSuggestionClick}>
+                            Tell me more about Carlo's experience in Tech
+                        </button>
+                    </li>
                     <li>
                         <button onClick={handlePromptSuggestionClick}>
-                            Tell me about Carlo's experience with Web Development
+                            Tell me how this website was developed
                         </button>
                     </li>
                     <li>
@@ -332,7 +339,7 @@ return <>
                     </li>
                     <li>
                         <button onClick={handlePromptSuggestionClick}>
-                            What are Carlo's best professional accomplishmens?
+                            Tell me about Carlo's experience across industries
                         </button>
                     </li>
                     <li>
