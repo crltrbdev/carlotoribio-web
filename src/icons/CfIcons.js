@@ -2,7 +2,6 @@ import React from 'react';
 
 import './CfIcons.scss';
 
-
 export function CfQnA(props) {
     return <>
         <svg className={props.className + ' icon'} viewBox="0 0 31 29" fill="none">

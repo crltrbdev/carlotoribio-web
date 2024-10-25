@@ -11,13 +11,12 @@ import './Chat.scss';
 import cookieManager from '../../util/CookieManager';
 
 function Chat() {
+    const NO_TOKENS_PROMPT = process.env.REACT_APP_NO_TOKENS_PROMPT;
+    const GREETING_PROMPT = process.env.REACT_APP_GREETING_PROMPT;
+    const RESUME = process.env.REACT_APP_RESUME_LINK;
+
     const [query, setQuery] = useState("");
 
-    const inputRef = useRef(null);
-    const scrollDivRef = useRef(null);
-    const ulScrollRef = useRef(null);
-
-    // Chat state variables
     const [showNewAnswer, setShowNewAnswer] = useState(false);
     const [chatHistory, setChatHistory] = useState([]);
 
@@ -25,24 +24,19 @@ function Chat() {
     const [chatItems, setChatItems] = useState([]);
     const [isWaitingForAnswer, setIsWaitingForAnswer] = useState(false);
 
+    const inputRef = useRef(null);
+    const scrollDivRef = useRef(null);
+    const ulScrollRef = useRef(null);
+
     useEffect(() => {
-        // On page load, check if tokens are already stored in sessionStorage
-        const tokenCookie = cookieManager.getChatTokens();
-
-        const answer = `
-**Carlo** is a seasoned **software architect** and **engineer** with over ten years dedicated to crafting enterprise solutions. He has worked on a range of projects across various industries, including **Finance**, **Healthcare**, **Telecoms** and **Video Game**.
-
-His technical knowledge spans **Java / Spring Boot**, **.NET**, **React**, **Angular**, **Mobile development**, **Cloud platforms** and others. Currently, he is developing an indie video game, where he mixes his software development and artistic expression.
-
-Want to learn more about Carlo? **Just ask!**`;
-
+        const greeting = GREETING_PROMPT;
         const greetingChatItem = {
             chatId: uuidv4(),
             itemType: 'streamAnswer',
             streamFunction: async (chatItemData) => {
                 chatItemData.setIsStreaming(true);
 
-                const words = answer.split(' ');
+                const words = greeting.split(' ');
                 let currentAnswer = '';
 
                 words.forEach((word, index) => {
@@ -64,6 +58,9 @@ Want to learn more about Carlo? **Just ask!**`;
     };
 
     setChatItems([greetingChatItem]);
+    if(chatHistory.length == 0) {
+        setChatHistory(old => [...old, `[assistant] ${greeting}`]);
+    }
 }, []);
 
 useEffect(() => {
@@ -184,11 +181,13 @@ function handleTokensDepleted() {
 
     const countdown = cookieManager.getCountdownToTokenReset(true, true);
 
+    let answer = NO_TOKENS_PROMPT
+        .replace('{0}', RESUME)
+        .replace('{1}', countdown);
+
     const fakeStreamFunction = async (chatItemData) => {
         chatItemData.setIsStreaming(true);
         // setIsWaitingForAnswer(true);
-
-        let answer = `Thank you for your question! To ensure quality responses, there’s a one-hour wait before you can ask again. Feel free to look at Carlo\'s resume in the meantime and I\'ll be here for more questions in ${countdown}!`;
 
         const words = answer.split(' ');
         let currentAnswer = '';
@@ -212,13 +211,14 @@ function handleTokensDepleted() {
         return answer;
     };
 
-    const greetingChatItem = {
+    const depletedQuestionsChatItem = {
         chatId: uuidv4(),
         itemType: 'streamAnswer',
         streamFunction: fakeStreamFunction
     };
 
-    setChatItems(old => [...old, greetingChatItem]);
+    setChatItems(old => [...old, depletedQuestionsChatItem]);
+    setChatHistory(old => [...old, `[assistant] ${answer}`]);
     setIsWaitingForAnswer(false);
 }
 

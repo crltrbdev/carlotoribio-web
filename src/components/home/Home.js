@@ -1,16 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import linkedinImg from '../../assets/media/linkedin.png';
 import githubImg from '../../assets/media/github.png';
-import emailImg from '../../assets/media/email.png';
 import logoImg from '../../assets/images/logos/logo.png';
 import face4 from '../../assets/pics/face4.jpg';
 
 import './Home.scss';
 import Chat from '../chat/Chat';
+import { FaAt, FaDochub, FaDownload, FaFileDownload, FaFileExport, FaFilePdf, FaGit, FaGithub } from 'react-icons/fa';
+import { FaFileLines, FaLinkedin } from 'react-icons/fa6';
 
 function Home(props) {
-    
+    const EMAIL = process.env.REACT_APP_CONTACT_EMAIL;
+    const RESUME_LINK = process.env.REACT_APP_RESUME_LINK;
+    const LINKEDIN_LINK = process.env.REACT_APP_LINKEDIN_LINK;
+    const GITHUB_LINK = process.env.REACT_APP_GITHUB_LINK;
 
     return <>
         <section className={`home-wrapper ${props.className}`}>
@@ -23,23 +27,28 @@ function Home(props) {
 
                 <div className="profile-info">
                     <div className="name-role">
-                        <label className="title">Carlo Toribio</label>
+                        <div className="name-email">
+                            <label className="title">Carlo Toribio</label>
+                            <a href={`mailto:${EMAIL}`}>
+                                <FaAt className="email" />
+                            </a>
+                        </div>
                         <label className="subtitle">Software Architect & Full-Stack Engineer</label>
                         <label className="summary">
-                        Welcome! I’m Carlo Toribio. <span className='mobile-hide'>I'm a software engineer and solutions architect with over a decade of experience in the tech industry.It's my professional career and hobby to create innovative solutions and playing with emerging technologies.</span>Ask my GPT about my professional experience.
+                        Welcome! I’m Carlo Toribio. <span className='mobile-hide'>I'm a software engineer and solutions architect with over a decade of experience in the tech industry.It's my professional career and hobby to create innovative solutions and playing with emerging technologies.</span> Ask my GPT about my professional experience.
                         </label>
                     </div>
                 </div>
 
                 <div className="social">
-                    <a href="https://www.linkedin.com/in/carlotoribio/" target="_blank">
-                        <img className="linkedin" src={linkedinImg} />
+                    <a href={GITHUB_LINK} target="_blank">
+                        <FaGithub className="icon" />
                     </a>
-                    <a href="https://github.com/crltrbdev?tab=repositories" target="_blank">
-                        <img className="github" src={githubImg} />
+                    <a href={LINKEDIN_LINK} target="_blank">
+                        <FaLinkedin className="icon" />
                     </a>
-                    <a href="mailto:carlo.toribio.dev@gmail.com" target="_blank">
-                        <img className="resume" src={emailImg} />
+                    <a href={RESUME_LINK} target="_blank">
+                        <FaFileDownload className="icon resume" />
                     </a>
                 </div>
             </header>

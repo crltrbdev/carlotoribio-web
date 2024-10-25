@@ -79,6 +79,15 @@ function StreamChatItem(props) {
             <span className={'chat-text'}>
                 <ReactMarkdown components={{
                     p: 'span',
+                    a: ({ href, children }) => (
+                        <a
+                          href={href}
+                          target='_blank'
+                          rel='noopener noreferrer'
+                        >
+                          {children}
+                        </a>
+                      )
                 }}>
                     {answer}
                 </ReactMarkdown>

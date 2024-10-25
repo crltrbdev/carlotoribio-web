@@ -43,6 +43,20 @@ $header-height: 175px;
                 }
             }
 
+            .name-email {
+                display: flex;
+                align-items: baseline;
+
+                .email {
+                    align-self: center;
+                    justify-self: center;
+                    fill: $dotio-color-light-50;
+                    height: 34px;
+                    width: 34px;
+                    margin: 0 0 1px 12px;
+                }
+            }
+
             .title {
                 margin-top: 5px;
                 font-size: 3.8em;
@@ -69,24 +83,22 @@ $header-height: 175px;
             display: flex;
             flex-direction: column;
             padding: 0px 25px;
-            background-color: $palette-secondary;
+            background-color: $dotio-color-light-55;
             height: 100%;
             flex-grow: 0;
             flex-shrink: 0;
-            gap: 15px;
+            gap: 5px;
             border-left: 1px solid $color-border;
             justify-content: center;
+            align-items: center;
 
-            .linkedin {
-                height: 35px;
-            }
+            .icon {
+                fill: $dotio-color-light;
+                font-size: 2em;
 
-            .github {
-                height: 35px;
-            }
-
-            .resume {
-                height: 35px;
+                &.resume {
+                    font-size: 1.6em;
+                }
             }
         }
     }
@@ -150,6 +162,13 @@ $header-height: 175px;
                 margin: 0;
                 height: auto;
                 flex-basis: 66%;
+
+                .name-email {
+                    .envelope {
+                        height: 20px;
+                        width: 20px;
+                    }
+                }
 
                 .title {
                     font-size: 1.5em;
