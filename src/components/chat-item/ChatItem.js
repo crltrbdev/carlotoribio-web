@@ -5,6 +5,7 @@ import ReactMarkdown from 'react-markdown';
 import { CfUserChatImg, CfAIChatBotImg } from '../../icons/CfIcons';
 
 import './ChatItem.scss';
+import { isInaccessible } from '@testing-library/react';
 
 function ChatItem(props) {
     const { chatItemData, direction = 'row' } = props;
@@ -30,7 +31,7 @@ function QueryChatItem(props) {
         <div className={`query-item-wrapper ${direction}`}>
             <CfUserChatImg className='answer-icon' />
             <span className={'chat-text'}>
-            {parse(chatItemData.prompt)}
+                {parse(chatItemData.prompt)}
             </span>
         </div>
     </>
@@ -42,14 +43,11 @@ function StreamChatItem(props) {
     const { chatItemData, direction } = props;
 
     useEffect(() => {
-
-        // handled from Chat or ShopChat parent
         chatItemData.setAnswer = newText => {
             chatItemData.answer = newText;
             setAnswer(newText);
         };
 
-        // handled from Chat or ShopChat parent
         chatItemData.setIsStreaming = newValue => {
             setIsStreaming(newValue);
         }
@@ -57,9 +55,13 @@ function StreamChatItem(props) {
         async function streamAnswer() {
             if (!chatItemData.isStreaming) {
                 chatItemData.isStreaming = true;
-                
+
                 if (chatItemData.streamFunction) {
-                    chatItemData.finalAnswer = await chatItemData.streamFunction(chatItemData);
+                    chatItemData.finalAnswer =
+                        await chatItemData.streamFunction(chatItemData).
+                        then(() => {
+                            chatItemData.isStreaming = false;
+                        });
                 }
             } else if (chatItemData.finalAnswer) {
                 setAnswer(chatItemData.finalAnswer);
@@ -74,9 +76,14 @@ function StreamChatItem(props) {
     return <>
         <div className={`stream-item-wrapper ${direction}`}>
             <CfAIChatBotImg className='answer-icon' />
-            <ReactMarkdown className={'chat-text' + (isStreaming ? ' is-streaming' : '')}>
-                {answer}
-            </ReactMarkdown>
+            <span className={'chat-text'}>
+                <ReactMarkdown components={{
+                    p: 'span',
+                }}>
+                    {answer}
+                </ReactMarkdown>
+                <span className={isStreaming ? 'is-streaming' : ''}></span>
+            </span>
         </div>
     </>
 }

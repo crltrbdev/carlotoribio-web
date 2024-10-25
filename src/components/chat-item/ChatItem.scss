@@ -1,6 +1,7 @@
 @import "src/assets/styles/variables.scss";
 
 $mobile-font-size: .9em;
+$wrapper-padding: 15px;
 
 .query-item-wrapper {
     display: flex;
@@ -12,7 +13,7 @@ $mobile-font-size: .9em;
     align-items: center;
     gap: 10px;
     width: 70%;
-    padding: 20px;
+    padding: $wrapper-padding;
     box-shadow: -2px 2px 6px rgba(0, 0, 0, 0.5);
     overflow-wrap: break-word;
 
@@ -30,7 +31,7 @@ $mobile-font-size: .9em;
     }
 
     @media screen and (max-width: 767px) {
-        padding: 15px;
+        padding: $wrapper-padding;
         width: 83%;
         flex-direction: column !important;
         align-items: flex-start;
@@ -45,7 +46,6 @@ $mobile-font-size: .9em;
             font-size: 2em;
             height: 27px;
         }
-
 
         .chat-text {
             font-size: $mobile-font-size;
@@ -63,7 +63,7 @@ $mobile-font-size: .9em;
     border-radius: 20px;
     box-shadow: -2px 2px 6px rgba(0, 0, 0, 0.5);
     width: 70%;
-    padding: 0px 10px;
+    padding: $wrapper-padding;
     overflow-wrap: break-word;
 
     .answer-icon {
@@ -71,17 +71,12 @@ $mobile-font-size: .9em;
     }
 
     .chat-text {
-        
-        color: $palette-clear;
+        display: inline;
         line-height: 1.2;
-    }
 
-    &.row {
-        flex-direction: row;
-    }
-
-    &.column {
-        flex-direction: column;
+        * {
+            color: $palette-clear;
+        }
     }
 
     .is-streaming {
@@ -101,14 +96,20 @@ $mobile-font-size: .9em;
         }
     }
 
+    &.row {
+        flex-direction: row;
+    }
+
+    &.column {
+        flex-direction: column;
+    }
+
     @media screen and (max-width: 767px) {
-        padding: 15px;
         width: 80%;
         flex-direction: column !important;
         align-items: start;
         font-size: $mobile-font-size;
-        padding-top: 5px;
-        padding-bottom: 0px;
+        padding-top: 7px;
 
         .answer-icon {
             font-size: 2em;
@@ -118,11 +119,16 @@ $mobile-font-size: .9em;
             align-self: center;
         }
 
+        .chat-text {
+            margin-top: 14px;
+        }
+
         .is-streaming {
             &::after {
                 content: "";
                 width: 5px;
                 height: 15px;
+                background: $palette-clear;
                 display: inline-block;
                 animation: cursor-blink .65s steps(2) infinite;
             }

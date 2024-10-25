@@ -1,40 +1,46 @@
-const tokenCookieName = 'tokenCount';
+const tokenCountCookieName = 'tokenCount';
 const resetTokenDateCookieName = 'restTokenDate';
 
 const maxTokens = 3;
-const cookieResetTime = 1000 * 60 * 60; // 1 hour
-// const cookieResetTime = 1000 * 60 * 2; // 2 minutes
-// const cookieResetTime = 1000 * 60; // 1 minute
-// const cookieResetTime = 1000 * 30; // 30 seconds
-// const cookieResetTime = 1000 * 15; // 15 seconds
-// const cookieResetTime = 5000; // 5 seconds
+const cookieResetTime = 1000 * 60 * 60;
 
 class CookieManager {
 
+    promoHashtag = process.env.REACT_APP_PROMO_HASHTAG;
+
     resetChatTokens() {
-        this.setCookie(tokenCookieName, maxTokens);
+        this.setCookie(tokenCountCookieName, maxTokens);
         this.setCookie(resetTokenDateCookieName, 0);
     }
 
     getChatTokens() {
-        let tokenCookie = this.getCookie(tokenCookieName);
-        if (!tokenCookie || this.getSecondsToReset() <= 0) {
+        let tokenCookie = this.getCookie(tokenCountCookieName);
+        const secondsToReset = this.getSecondsToReset();
+        if (!tokenCookie || secondsToReset <= 0) {
             this.resetChatTokens();
-            tokenCookie = this.getCookie(tokenCookieName);
+            tokenCookie = this.getCookie(tokenCountCookieName);
         }
         return parseInt(tokenCookie);
     }
 
+    getChatTokensLeftCount() {
+        let tokenCookie = this.getCookie(tokenCountCookieName);
+        if (tokenCookie) {
+            return tokenCookie;
+        }
+        return 0;
+    }
+
     reduceChatTokens() {
-        const chatTokens = parseInt(this.getCookie(tokenCookieName));
+        const chatTokens = parseInt(this.getCookie(tokenCountCookieName));
         if (chatTokens) {
             const date = new Date(Date.now());
             let tokensLeft = chatTokens - 1;
-            if(tokensLeft <= 0) {
+            if (tokensLeft <= 0) {
                 tokensLeft = 0;
             }
 
-            this.setCookie(tokenCookieName, tokensLeft);
+            this.setCookie(tokenCountCookieName, tokensLeft);
             this.setCookie(resetTokenDateCookieName, date.setMilliseconds(cookieResetTime));
 
             return tokensLeft;
@@ -48,12 +54,15 @@ class CookieManager {
     }
 
     canAskQuestion() {
-        return this.getCookie(tokenCookieName) > 0 || this.getSecondsToReset() <= 0;
+        const tokensLeft = 
+            this.getChatTokens(tokenCountCookieName);
+        const secondsToReset = this.getSecondsToReset();
+        return tokensLeft > 0 || secondsToReset <= 0;
     }
 
     getSecondsToReset() {
         const resetTokenValue = this.getCookie(resetTokenDateCookieName);
-        if(resetTokenValue) {
+        if (resetTokenValue) {
             var secondsToReset = (parseInt(resetTokenValue) - Date.now()) / 1000
             return secondsToReset;
         }
@@ -62,28 +71,48 @@ class CookieManager {
 
     getTokenResetTime() {
         const resetTokenValue = this.getCookie(resetTokenDateCookieName);
-        if(resetTokenValue) {
+        if (resetTokenValue) {
             return new Date(parseInt(resetTokenValue)).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' });
         }
         return null;
     }
 
-    getCountdownToTokenReset() {
+    getCountdownToTokenReset(showTimeUnit, showSingleUnit) {
         const resetTokenValue = this.getCookie(resetTokenDateCookieName);
-        if(resetTokenValue) {
+        if (resetTokenValue) {
             var milliseconds = parseInt(resetTokenValue) - Date.now();
 
-            if(milliseconds <= 0)
-            {
+            if (milliseconds <= 0) {
                 return "00:00";
             }
 
             const minutes = Math.floor(milliseconds / 1000 / 60); // Full minutes
             const seconds = Math.floor((milliseconds / 1000) % 60); // Remaining seconds
 
-            return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            let countdown = "";
+
+            if (showSingleUnit) {
+                if (minutes <= 0) {
+                    countdown = `${seconds.toString()}${showTimeUnit ? ' ' + this.getTimeUnit(minutes, seconds) : ""}`;
+                } else {
+                    countdown = `${minutes.toString()}${showTimeUnit ? ' ' + this.getTimeUnit(minutes, seconds) : ""}`;
+                }
+            } else {
+                countdown = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}${showTimeUnit ? ' ' + this.getTimeUnit(minutes, seconds) : ""}`;
+            }
+
+            return countdown;
         }
         return null;
+    }
+
+    getTimeUnit(minutes, seconds) {
+        if (minutes > 1) return 'minutes';
+        if (minutes === 1) return 'minute';
+        if (seconds > 1) return 'seconds';
+        if (seconds === 1) return 'second';
+
+        return null; // in case both minutes and seconds are 0
     }
 
     getCookie(name) {
