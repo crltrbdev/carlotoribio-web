@@ -1,14 +1,12 @@
 import React from 'react';
 
-import linkedinImg from '../../assets/media/linkedin.png';
-import githubImg from '../../assets/media/github.png';
 import logoImg from '../../assets/images/logos/logo.png';
 import face4 from '../../assets/pics/face4.jpg';
 
 import './Home.scss';
 import Chat from '../chat/Chat';
-import { FaAt, FaDochub, FaDownload, FaFileDownload, FaFileExport, FaFilePdf, FaGit, FaGithub } from 'react-icons/fa';
-import { FaFileLines, FaLinkedin } from 'react-icons/fa6';
+import { FaAt, FaFileDownload, FaGithub } from 'react-icons/fa';
+import { FaLinkedin } from 'react-icons/fa6';
 
 function Home(props) {
     const EMAIL = process.env.REACT_APP_CONTACT_EMAIL;
@@ -20,8 +18,8 @@ function Home(props) {
         <section className={`home-wrapper ${props.className}`}>
             <header>
                 <div className="profile-picture">
-                    <div className="profile-pic-container">
-                        <img src={face4} />
+                    <div className='profile-pic-container'>
+                        <img src={face4} alt="profile" />
                     </div>
                 </div>
 
@@ -29,7 +27,7 @@ function Home(props) {
                     <div className="name-role">
                         <div className="name-email">
                             <label className="title">Carlo Toribio</label>
-                            <a href={`mailto:${EMAIL}`}>
+                            <a href={`mailto:${EMAIL}`}  rel='noopener noreferrer'>
                                 <FaAt className="email" />
                             </a>
                         </div>
@@ -41,20 +39,20 @@ function Home(props) {
                 </div>
 
                 <div className="social">
-                    <a href={GITHUB_LINK} target="_blank">
+                    <a href={GITHUB_LINK} target="_blank" rel='noopener noreferrer'>
                         <FaGithub className="icon" />
                     </a>
-                    <a href={LINKEDIN_LINK} target="_blank">
+                    <a href={LINKEDIN_LINK} target="_blank" rel='noopener noreferrer'>
                         <FaLinkedin className="icon" />
                     </a>
-                    <a href={RESUME_LINK} target="_blank">
+                    <a href={RESUME_LINK} target="_blank" rel='noopener noreferrer'>
                         <FaFileDownload className="icon resume" />
                     </a>
                 </div>
             </header>
             <section className='main-container'>
                 <div className="logo-image">
-                    <img src={logoImg} />
+                    <img src={logoImg} alt="logo" />
                 </div>
                 <div className="chat-container">
                     <Chat />

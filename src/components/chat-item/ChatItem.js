@@ -5,7 +5,6 @@ import ReactMarkdown from 'react-markdown';
 import { CfUserChatImg, CfAIChatBotImg } from '../../icons/CfIcons';
 
 import './ChatItem.scss';
-import { isInaccessible } from '@testing-library/react';
 
 function ChatItem(props) {
     const { chatItemData, direction = 'row' } = props;
@@ -58,10 +57,10 @@ function StreamChatItem(props) {
 
                 if (chatItemData.streamFunction) {
                     chatItemData.finalAnswer =
-                        await chatItemData.streamFunction(chatItemData).
-                        then(() => {
-                            chatItemData.isStreaming = false;
-                        });
+                        await chatItemData.streamFunction(chatItemData)
+                            .then(() => {
+                                chatItemData.isStreaming = false;
+                            });
                 }
             } else if (chatItemData.finalAnswer) {
                 setAnswer(chatItemData.finalAnswer);

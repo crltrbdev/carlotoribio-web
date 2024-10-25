@@ -9,7 +9,7 @@ function Footer(props) {
                 <label>Copyright © {new Date().getFullYear()} Carlo Toribio</label>
             </div>
             <div className="poweredByContainer">
-                <img className="poweredBy" src={awsImg} />
+                <img alt="aws" className="poweredBy" src={awsImg} />
             </div>
         </div>
     </>

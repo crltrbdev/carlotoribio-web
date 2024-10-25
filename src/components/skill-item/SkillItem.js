@@ -33,6 +33,8 @@ function SkillItem(props) {
                 return javaImg;
             case 'React':
                 return reactImg;
+            default:
+                throw new Error(`Unrecognized skill ${props.title}`);
         }
     }
 
@@ -47,7 +49,7 @@ function SkillItem(props) {
     return <>
         <section className="skill-item-wrapper" onClick={clickHandler}>
             <div className={'skill-icon ' + props.title.toLowerCase()} >
-                <img src={getImage()} />
+                <img src={getImage()} alt="skill" />
             </div>
         </section>
     </>

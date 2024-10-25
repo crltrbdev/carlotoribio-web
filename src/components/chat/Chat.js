@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { FaArrowUp, FaBan, FaCaretLeft, FaCaretRight, FaPaperPlane } from "react-icons/fa";
 import { v4 as uuidv4 } from 'uuid';
 
@@ -13,7 +13,7 @@ import cookieManager from '../../util/CookieManager';
 function Chat() {
     const NO_TOKENS_PROMPT = process.env.REACT_APP_NO_TOKENS_PROMPT;
     const GREETING_PROMPT = process.env.REACT_APP_GREETING_PROMPT;
-    const RESUME = process.env.REACT_APP_RESUME_LINK;
+    const RESUME_LINK = process.env.REACT_APP_RESUME_LINK;
 
     const [query, setQuery] = useState("");
 
@@ -28,8 +28,10 @@ function Chat() {
     const scrollDivRef = useRef(null);
     const ulScrollRef = useRef(null);
 
+    const greeting = useMemo(() => GREETING_PROMPT
+        .replace('{0}', RESUME_LINK), [GREETING_PROMPT, RESUME_LINK]);
+
     useEffect(() => {
-        const greeting = GREETING_PROMPT;
         const greetingChatItem = {
             chatId: uuidv4(),
             itemType: 'streamAnswer',
@@ -58,10 +60,8 @@ function Chat() {
     };
 
     setChatItems([greetingChatItem]);
-    if(chatHistory.length == 0) {
-        setChatHistory(old => [...old, `[assistant] ${greeting}`]);
-    }
-}, []);
+    setChatHistory(old => [...old, `[assistant] ${greeting}`]);
+}, [greeting]);
 
 useEffect(() => {
     setShowNewAnswer(scrollDivRef.current.scrollTop >= 5)
@@ -182,7 +182,7 @@ function handleTokensDepleted() {
     const countdown = cookieManager.getCountdownToTokenReset(true, true);
 
     let answer = NO_TOKENS_PROMPT
-        .replace('{0}', RESUME)
+        .replace('{0}', RESUME_LINK)
         .replace('{1}', countdown);
 
     const fakeStreamFunction = async (chatItemData) => {

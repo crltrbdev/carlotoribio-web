@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Lambda, InvokeWithResponseStreamCommand, InvokeCommand } from "@aws-sdk/client-lambda"
+import { Lambda, InvokeWithResponseStreamCommand } from "@aws-sdk/client-lambda"
 
 const accessKeyId = process.env.REACT_APP_AWS_ACCESS_KEY;
 const secretAccessKey = process.env.REACT_APP_AWS_SECRET_KEY;
