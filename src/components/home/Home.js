@@ -49,7 +49,7 @@ function Home(props) {
                             </div>
                             <label className="subtitle">Software Architect & Full-Stack Engineer</label>
                             <label className="summary">
-                                Welcome! I’m Carlo Toribio. <span className='mobile-hide'>I'm a software engineer and solutions architect with over a decade of experience in the tech industry.It's my professional career and hobby to create innovative solutions and playing with emerging technologies.</span> Ask my OpenAI Chatbot about my professional experience.
+                                Welcome! I’m Carlo Toribio. <span className='mobile-hide'>I'm a software engineer and solutions architect with over a decade of experience in the tech industry. It's my professional career and hobby to create innovative solutions and playing with emerging technologies.</span> Ask my OpenAI Chatbot about my professional experience.
                             </label>
                         </div>
                     </div>
