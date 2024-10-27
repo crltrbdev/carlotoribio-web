@@ -17,7 +17,6 @@ $header-height: 175px;
         height: $header-height;
 
         .profile-picture {
-            
             .profile-pic-container {
                 border: 1px solid $color-border;
                 border-radius: 50%;
@@ -96,6 +95,7 @@ $header-height: 175px;
 
                 &.resume {
                     font-size: 1.6em;
+                    cursor: pointer;
                 }
             }
         }

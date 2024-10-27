@@ -7,14 +7,18 @@ import { CfUserChatImg, CfAIChatBotImg } from '../../icons/CfIcons';
 import './ChatItem.scss';
 
 function ChatItem(props) {
-    const { chatItemData, direction = 'row' } = props;
-
+    const {
+        chatItemData,
+        direction = 'row',
+        openResumePopup
+    } = props;
+    
     function getChatItem() {
         switch (chatItemData.itemType) {
             case "query":
                 return <QueryChatItem chatItemData={chatItemData} direction={direction} />
             case "streamAnswer":
-                return <StreamChatItem chatItemData={chatItemData} direction={direction} />
+                return <StreamChatItem chatItemData={chatItemData} direction={direction} openResumePopup={openResumePopup} />
             default:
                 throw new Error(`${chatItemData.itemType} unknown.`)
         }
@@ -24,7 +28,6 @@ function ChatItem(props) {
 }
 
 function QueryChatItem(props) {
-
     const { chatItemData, direction } = props;
     return <>
         <div className={`query-item-wrapper ${direction}`}>
@@ -39,7 +42,11 @@ function QueryChatItem(props) {
 function StreamChatItem(props) {
     const [answer, setAnswer] = useState('');
     const [isStreaming, setIsStreaming] = useState(false);
-    const { chatItemData, direction } = props;
+    const {
+        chatItemData,
+        direction,
+        openResumePopup
+    } = props;
 
     useEffect(() => {
         chatItemData.setAnswer = newText => {
@@ -54,7 +61,6 @@ function StreamChatItem(props) {
         async function streamAnswer() {
             if (!chatItemData.isStreaming) {
                 chatItemData.isStreaming = true;
-
                 if (chatItemData.streamFunction) {
                     chatItemData.finalAnswer =
                         await chatItemData.streamFunction(chatItemData)
@@ -75,14 +81,18 @@ function StreamChatItem(props) {
     return <>
         <div className={`stream-item-wrapper ${direction}`}>
             <CfAIChatBotImg className='answer-icon' />
-            <span className={'chat-text'}>
+            <span className={'chat-text'}> {/* [CT] Click instead of link*/}
                 <ReactMarkdown components={{
                     p: 'span',
                     a: ({ href, children }) => (
                         <a
-                          href={href}
+                          href=''
                           target='_blank'
                           rel='noopener noreferrer'
+                          onClick={(e) => {
+                            e.preventDefault();
+                            openResumePopup();
+                          }}
                         >
                           {children}
                         </a>

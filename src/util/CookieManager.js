@@ -1,13 +1,13 @@
 const tokenCountCookieName = 'tokenCount';
 const resetTokenDateCookieName = 'restTokenDate';
-const maxTokens = 5;
 const cookieResetTime = 1000 * 60 * 60;
 
 class CookieManager {
     promoHashtag = process.env.REACT_APP_PROMO_HASHTAG;
+    maxTokens = process.env.REACT_APP_MAX_QUESTION_TOKENS;
 
     resetChatTokens() {
-        this.setCookie(tokenCountCookieName, maxTokens);
+        this.setCookie(tokenCountCookieName, this.maxTokens);
         this.setCookie(resetTokenDateCookieName, 0);
     }
 
@@ -125,10 +125,6 @@ class CookieManager {
     setCookie(name, value) {
         const expires = new Date(Date.now() + 1000 * 60 * 60 * 24).toUTCString();
         document.cookie = `${name}=${value}; expires=${expires}; path=/`;
-    }
-
-    getMaxTokens() {
-        return maxTokens;
     }
 }
 

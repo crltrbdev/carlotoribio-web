@@ -1,0 +1,123 @@
+@import "src/assets/styles/variables.scss";
+@import "src/assets/styles/font.scss";
+
+.resume-popup-wrapper {
+    width: 70%;
+    margin: 0 auto;
+    border-radius: 8px;
+    background-color: $dotio-color-lightest;
+    border: 1px solid $palette-contrast;
+
+    .resume-popup-container {
+        .resume-popup-title {
+            padding: 5px;
+            border-radius: 8px;
+            border-end-start-radius: 0;
+            border-end-end-radius: 0;
+            background-color: $palette-contrast;
+            border: 3px solid $dotio-color-lightest;
+            border-bottom: 0;
+            text-align: center;
+
+            h2 {
+                margin: 2px;
+                font-weight: 400;
+                font-size: 1.6em;
+                color: $dotio-color-light-30;
+            }
+        }
+
+        .resume-popup-content {
+            padding: 0px 12px;
+            padding-bottom: 15px;
+
+            .content {
+                display: flex;
+                align-items: center;
+                margin: 10px 0;
+            }
+
+            p {
+                @extend .dotio-font-contrast;
+                font-size: 1.15em;
+                margin: 0;
+            }
+
+            .download-icon {
+                margin-left: 5px;
+                margin-right: 15px;
+                fill: $palette-contrast;
+                height: 65px;
+                width: 65px;
+            }
+        }
+
+        .email-input-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            .dotio-input {
+                margin: 0;
+
+                .invalid {
+                    fill: $color-neutral;
+                    cursor: not-allowed;
+                }
+            }
+
+            .at-icon {
+                margin-top: 3px;
+                height: 30px;
+                width: 30px;
+                fill: $color-success;
+            }
+
+            .invalid { 
+                fill: $color-neutral;
+            }
+        }
+    }
+
+    @media screen and (max-width: 767px) {
+        width: 90%;
+        
+        .resume-popup-container {
+            .resume-popup-title {
+                h2 {
+                    font-size: 1.4em;
+                }
+            }
+
+            .resume-popup-content {
+                p {
+                    @extend .dotio-font-contrast;
+                    font-size: .9em;
+                    margin: 0;
+                }
+
+                .download-icon {
+                    height: 65px;
+                    width: 65px;
+                }
+            }
+
+            .email-input-container {
+                .dotio-input {
+                    font-size: .9em;
+                    width: 100%;
+                }
+
+                .at-icon {
+                    height: 30px;
+                    width: 30px;
+                    fill: $color-success;
+                }
+    
+                .invalid { 
+                    fill: $color-neutral;
+                }
+            }
+        }
+    }
+}

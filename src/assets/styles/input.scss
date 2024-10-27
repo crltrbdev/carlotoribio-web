@@ -1,0 +1,55 @@
+@import "variables.scss";
+
+.dotio-input {
+    display: flex;
+    margin-top: 15px;
+    align-self: center;
+    box-shadow: -5px 5px 5px rgba(0, 0, 0, 0.5);
+    border-radius: 12px;
+    background-color: $palette-clear;
+    padding: 8px 0px;
+    width: 725px;
+    border: 1px solid lightgray;
+
+    .input-wrapper {
+        width: 95%;
+        flex-grow: 2;
+
+        input[type='email'],
+        input[type='text'] {
+            background-color: transparent;
+            color: $accent-color;
+            border: none;
+
+            font-size: 1.2em;
+            outline: none;
+
+            padding-left: 15px;
+            width: 95%;
+        }
+    }
+
+    .send-icon-wrapper {
+        padding: 0 20px 0 0;
+
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        transition: all 0.15s ease;
+
+        &.disabled {
+            cursor: not-allowed;
+
+            .send-icon {
+                fill: $disabled-color;
+            }
+        }
+    }
+
+    .send-icon {
+        height: 20px;
+        width: 20px;
+        fill: $dotio-color-light-30;
+    }
+}

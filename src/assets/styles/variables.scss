@@ -6,6 +6,7 @@ $dotio-color: #16191d;
 $dotio-color-light: lighten($dotio-color, 10%);
 $dotio-color-lighter: lighten($dotio-color, 15%);
 $dotio-color-lightest: lighten($dotio-color, 20%);
+$dotio-color-light-30: lighten($dotio-color, 30%);
 $dotio-color-light-43: lighten($dotio-color, 43%);
 $dotio-color-light-50: lighten($dotio-color, 50%);
 $dotio-color-light-55: lighten($dotio-color, 55%);
@@ -28,6 +29,7 @@ $color-border: $palette-primary;
 $color-error: #d16969;
 $color-warning: #cca700;
 $color-success: #00a4a4;
+$color-neutral: #888;
 
 
 $accent-color: #1d1c1c;
