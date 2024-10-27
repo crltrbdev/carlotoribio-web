@@ -79,9 +79,14 @@ function ResumePopup(props) {
                             <div className='resume-popup-content'>
                                 <div className='content'>
                                     <FaEnvelope className='download-icon' />
-                                    <p>
-                                        Enter your email below to receive a link to download my resume instantly.
-                                    </p>
+                                    <div>
+                                        <p>
+                                            Enter your email below to receive a link to download my resume instantly.
+                                        </p>
+                                        <p className='email-usage-text'>
+                                            Your email will only be used to send the requested resume. We won’t share your email or send additional messages.
+                                        </p>
+                                    </div>
                                 </div>
                                 <div className='email-input-container'>
                                     <div className={'dotio-input'}>
