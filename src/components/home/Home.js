@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { FaAt, FaFileDownload, FaGithub } from 'react-icons/fa';
-import { FaLinkedin } from 'react-icons/fa6';
+import { FaAt, FaGithub } from 'react-icons/fa';
+import { FaFileLines, FaLinkedin } from 'react-icons/fa6';
 
 import Chat from '../chat/Chat';
 import ResumePopup from '../resume-popup/ResumePopup';
@@ -61,7 +61,7 @@ function Home(props) {
                         <a href={LINKEDIN_LINK} target="_blank" rel='noopener noreferrer'>
                             <FaLinkedin className="icon" />
                         </a>
-                        <FaFileDownload onClick={openPopup} className="icon resume" />
+                        <FaFileLines onClick={openPopup} className="icon resume" />
                     </div>
                 </header>
                 <section className='main-container'>

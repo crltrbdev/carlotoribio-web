@@ -33,6 +33,25 @@ class OpenAIService {
             }
         ));
     }
+
+    async sendResumEmail(email) {
+        const lambda = new Lambda({
+            region: lambdaRegion,
+            credentials: {
+                accessKeyId,
+                secretAccessKey
+            }
+        });
+
+        return lambda.send(new InvokeWithResponseStreamCommand(
+            {
+                FunctionName: 'sendEmailDotIO',
+                Payload: JSON.stringify({
+                    email
+                })
+            }
+        ));
+    }
 }
 
 const openAIService = new OpenAIService();

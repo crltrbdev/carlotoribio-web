@@ -162,8 +162,6 @@ $header-height: 175px;
                 flex-basis: 66%;
 
                 .name-email {
-                    
-
                     .email {
                         height: 18px;
                         width: 18px;
@@ -188,7 +186,16 @@ $header-height: 175px;
             }
 
             .social {
-                display: none;
+                padding: 0px 8px;
+                gap: 8px;
+                
+                .icon {
+                    fill: $dotio-color-light;
+                    padding: 0;
+                    margin: 0;
+                    height: 25px;
+                    width: 25px;
+                }
             }
         }
 

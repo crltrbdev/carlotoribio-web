@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Popup from 'reactjs-popup';
 
-import { FaCheck, FaRing, FaFilePdf, FaPaperPlane, FaAt } from "react-icons/fa";
+import openAIService from '../../services/OpenAIService';
+import { FaPaperPlane, FaAt, FaEnvelope } from "react-icons/fa";
 
 import './ResumePopup.scss';
-import { FaX } from 'react-icons/fa6';
 
 function ResumePopup(props) {
     const {
@@ -16,6 +16,7 @@ function ResumePopup(props) {
 
     const [isValid, setIsValid] = useState(false);
     const [email, setEmail] = useState('');
+    const [isEmailSent, setIsEmailSent] = useState(false);
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
 
@@ -28,7 +29,6 @@ function ResumePopup(props) {
     const handleEmailSubmit = (close) => {
         if(isValid) {
             submitEmail();
-            close();
         }
     };
 
@@ -38,22 +38,24 @@ function ResumePopup(props) {
     }
 
     const handleOnKeyDown = (e) => {
-        if (e.key === 'Enter' || e.type === 'click') {
-            submitEmail();
+        if (isValid) {
+            if (e.key === 'Enter' || e.type === 'click') {
+                submitEmail();
+            }
         }
     }
 
     const handleOnClose = (e) => {
         setEmail('');
+        setIsEmailSent(false);
+        setIsValid(false);
         onClose(e);
     }
 
-    const submitEmail = () => {
+    const submitEmail = async () => {
         if (isValid) {
-            alert(email);
-            console.log('Email submitted:', email);
-        } else {
-            alert('Invalid email');
+            openAIService.sendResumEmail(email);
+            setIsEmailSent(true);
         }
     }
 
@@ -70,15 +72,15 @@ function ResumePopup(props) {
                 closeOnDocumentClick>
                 {close => (
                     <div className='resume-popup-wrapper'>
-                        <div className='resume-popup-container'>
+                        <div className={'resume-popup-container' + (isEmailSent ? ' hide-form' : '')}>
                             <div className='resume-popup-title'>
                                 <h2>Download Resume</h2>
                             </div>
                             <div className='resume-popup-content'>
                                 <div className='content'>
-                                    <FaFilePdf className='download-icon' />
+                                    <FaEnvelope className='download-icon' />
                                     <p>
-                                        Get instant access to my resume! Enter your email below, and I’ll send you a private link to download the PDF.
+                                        Enter your email below to receive a link to download my resume instantly.
                                     </p>
                                 </div>
                                 <div className='email-input-container'>
@@ -103,6 +105,24 @@ function ResumePopup(props) {
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div
+                            className={'resume-sent-container'  + (isEmailSent ? '' : ' hide-sent-message')} 
+                            onClick={close}>
+                            <h3 className='resume-sent-title'>
+                                Thank you for your interest in my resume.
+                            </h3>
+                            <p className='resume-sent-content'>
+                                An email with a link to my resume has been sent to your email address.
+                                <br />
+                                <strong>Please make sure to check your spam folder!</strong>
+                            </p>
+                            <p className='resume-sent-close'>
+                                (Click anywhere or press esc to close)
+                            </p>
+                            <p className='resume-sent-close-mbl'>
+                                (Tap anywhere to close)
+                            </p>
                         </div>
                     </div>
                 )}
