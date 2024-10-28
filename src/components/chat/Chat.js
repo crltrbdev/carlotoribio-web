@@ -32,8 +32,7 @@ function Chat(props) {
     const scrollDivRef = useRef(null);
     const ulScrollRef = useRef(null);
 
-    const greeting = useMemo(() => GREETING_PROMPT
-        .replace('{0}', RESUME_LINK), [GREETING_PROMPT, RESUME_LINK]);
+    const greeting = useMemo(() => GREETING_PROMPT, [GREETING_PROMPT]);
 
     useEffect(() => {
         const greetingChatItem = {
@@ -188,8 +187,7 @@ function Chat(props) {
 
         let answer = NO_TOKENS_PROMPT
             .replace('{0}', cookieManager.maxTokens)
-            .replace('{1}', RESUME_LINK)
-            .replace('{2}', countdown);
+            .replace('{1}', countdown);
 
         const fakeStreamFunction = async (chatItemData) => {
             chatItemData.setIsStreaming(true);
