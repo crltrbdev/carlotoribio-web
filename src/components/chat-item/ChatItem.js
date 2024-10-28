@@ -80,7 +80,6 @@ function StreamChatItem(props) {
 
     return <>
         <div className={`stream-item-wrapper ${direction}`}>
-            <CfAIChatBotImg className='answer-icon' />
             <span className={'chat-text'}> {/* [CT] Click instead of link*/}
                 <ReactMarkdown components={{
                     p: 'span',
@@ -104,6 +103,7 @@ function StreamChatItem(props) {
                 </ReactMarkdown>
                 <span className={isStreaming ? 'is-streaming' : ''}></span>
             </span>
+            <CfAIChatBotImg className='answer-icon' />
         </div>
     </>
 }

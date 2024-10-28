@@ -71,6 +71,7 @@ $wrapper-padding: 15px;
     }
 
     .chat-text {
+        width: 100%;
         display: inline;
         line-height: 1.2;
 
@@ -112,6 +113,7 @@ $wrapper-padding: 15px;
         padding-top: 7px;
 
         .answer-icon {
+            order: 0;
             font-size: 2em;
             height: 12px;
             padding: 0;
@@ -120,6 +122,7 @@ $wrapper-padding: 15px;
         }
 
         .chat-text {
+            order: 1;
             margin-top: 14px;
         }
 
