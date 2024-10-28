@@ -86,12 +86,14 @@ function StreamChatItem(props) {
                     p: 'span',
                     a: ({ href, children }) => (
                         <a
-                          href=''
+                          href={href}
                           target='_blank'
                           rel='noopener noreferrer'
                           onClick={(e) => {
-                            e.preventDefault();
-                            openResumePopup();
+                            if(href === 'resume') {
+                                e.preventDefault();
+                                openResumePopup();
+                            }
                           }}
                         >
                           {children}
