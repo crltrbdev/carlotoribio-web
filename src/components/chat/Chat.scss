@@ -28,7 +28,8 @@
     .suggestions-wrapper {
         .suggestions-container {
             display: flex;
-            margin: 5px $default-distance 0;
+            max-width: 765px;
+            margin: 5px auto 0;
             height: 70px;
             gap: 5px;
             align-items: center;
@@ -37,7 +38,7 @@
             .arrow-left,
             .arrow-right {
                 font-size: 40px;
-                color: $dotio-color;
+                color: $text-mid;
                 width: 25px;
                 cursor: pointer;
                 opacity: 0;
@@ -79,6 +80,13 @@
                 flex-wrap: nowrap;
                 overflow-x: scroll;
                 white-space: nowrap;
+                scrollbar-width: none;
+                mask-image: linear-gradient(90deg, transparent 0, #000 5%, #000 93%, transparent 100%);
+                -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 5%, #000 93%, transparent 100%);
+
+                &::-webkit-scrollbar {
+                    display: none;
+                }
 
                 li {
                     display: inline-block;
@@ -91,22 +99,26 @@
                     flex-direction: row;
                     gap: 8px;
                     align-items: center;
-                    color: $accent-color;
-                    background-color: $palette-contrast;
-                    padding: 8px 18px;
-                    border: solid 1px $accent-color-lighter;
-                    border-radius: 25px;
-                    font-size: 1.1em;
+                    color: $text-mid;
+                    background: $surface-1;
+                    backdrop-filter: blur(10px);
+                    -webkit-backdrop-filter: blur(10px);
+                    padding: 9px 18px;
+                    border: solid 1px $stroke;
+                    border-radius: $radius-pill;
+                    font-size: 1em;
                     width: auto;
                     cursor: pointer;
-                    transition: all 0.25s ease;
-                    box-shadow: -2px 2px 2px rgba(0, 0, 0, 0.5);
+                    transition: all 0.25s $ease;
                     margin-bottom: 5px;
 
                     justify-items: center;
 
                     &:hover {
-                        background-color: rgba($palette-secondary, .75);
+                        color: $text-hi;
+                        background: $accent-soft;
+                        border-color: rgba(43, 188, 237, .45);
+                        transform: translateY(-2px);
                     }
                 }
             }
@@ -127,11 +139,14 @@
         transform: translate(-50%, 0);
 
         .chat-panel {
-            background-color: $palette-contrast;
-            border: 1px solid $palette-contrast;
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
+            background: rgba(255, 255, 255, .028);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid $stroke;
+            border-top-left-radius: $radius-lg;
+            border-top-right-radius: $radius-lg;
             border-bottom: 0;
+            box-shadow: 0 -12px 40px rgba(0, 0, 0, .35);
 
             height: 100%;
 
@@ -167,15 +182,16 @@
         padding-top: 5px;
         opacity: 75%;
 
-        background-color: $dotio-color-lightest;
-        border: none;
+        background: $surface-solid;
+        color: $text-hi;
+        border: 1px solid $stroke;
         border-radius: 50%;
         font-size: 1.3em;
         font-weight: bold;
 
         cursor: pointer;
-        transition: all 0.2s ease;
-        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
+        transition: all 0.2s $ease;
+        box-shadow: $shadow-md;
         z-index: 1000;
 
         &.new-answer {
@@ -187,7 +203,7 @@
         }
 
         &:active {
-            background-color: $dotio-color;
+            background: $accent-soft;
         }
 
         &:hover {
@@ -197,13 +213,18 @@
 
     @media screen and (max-width: 767px) {
         padding: 0;
-        border-top: solid 1px $color-border;
+        border-top: solid 1px $stroke;
 
         .dotio-input {
             order: 4;
             border-radius: 0;
             width: 100%;
+            max-width: 100%;
             margin-top: 1px;
+            box-shadow: none;
+            border-left: 0;
+            border-right: 0;
+            border-bottom: 0;
 
             .input-wrapper {
                 input[type="text"] {
@@ -263,7 +284,7 @@
                 .arrow-left,
                 .arrow-right {
                     font-size: 30px;
-                    color: $dotio-color;
+                    color: $text-mid;
                     width: 25px;
                     cursor: pointer;
                     opacity: 0;
@@ -308,6 +329,9 @@
             .chat-panel {
                 height: 100%;
                 border-radius: 0;
+                border-left: 0;
+                border-right: 0;
+                box-shadow: none;
 
                 .chat-panel-messages {
                     flex-direction: column-reverse;

@@ -1,20 +1,82 @@
 @import "src/assets/styles/variables.scss";
 
-
 * {
-    font-family: Helvetica, "Lato", sans-serif;
-    color: $color-dark-text;
+    font-family: $font-sans;
+    color: $text-hi;
     box-sizing: border-box;
 }
 
+html,
 body {
     margin: 0;
     padding: 0;
+    background-color: $bg-base;
+    color: $text-hi;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 h1 {
     margin: 0;
-    color: $color-dark-text;
+    color: $text-hi;
     font-size: 2em;
     font-weight: normal;
+}
+
+a {
+    color: $accent;
+    text-decoration: none;
+    transition: color .2s $ease;
+
+    &:hover {
+        color: lighten($accent, 12%);
+    }
+}
+
+::selection {
+    background: $accent-soft;
+    color: #fff;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, .12);
+    border-radius: $radius-pill;
+
+    &:hover {
+        background: rgba(255, 255, 255, .22);
+    }
+}
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, .18) transparent;
+}
+
+@keyframes rise-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+    }
 }

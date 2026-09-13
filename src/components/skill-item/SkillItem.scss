@@ -4,12 +4,14 @@ $item-size: 40px;
 
 .skill-item-wrapper {
     display: flex;
-    padding: 8px;
-    border-radius: 10px;
-    background-color: $palette-clear;
-    border: 1px solid $color-border;
+    padding: 10px;
+    border-radius: 14px;
+    background: $surface-1;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid $stroke;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.28s $ease;
 
     .skill-icon {
         pointer-events: none;
@@ -20,23 +22,26 @@ $item-size: 40px;
             height: $item-size;
             width: $item-size;
             object-fit: contain;
+            transition: filter .28s $ease;
         }
     }
 
     &:hover {
-        transform: scale(1.1);
-        background-color: $palette-contrast;
+        transform: translateY(-3px);
+        background: $accent-soft;
+        border-color: rgba(43, 188, 237, .45);
+        box-shadow: 0 10px 24px rgba(43, 188, 237, .18);
     }
 
     &:active {
-        transform: scale(1.05);
+        transform: translateY(-1px);
     }
 
     @media screen and (max-width: 767px) {
         $shrunk-size: $item-size * .6;
 
-        padding: 3px 0 1px 0;
-        border-radius: 15px;
+        padding: 5px 2px 3px;
+        border-radius: 12px;
         display: flex;
         justify-items: center;
 
@@ -53,6 +58,7 @@ $item-size: 40px;
 
             &.aws {
                 padding-top: 5px;
+
                 img {
                     height: $shrunk-size * .6;
                 }
@@ -60,11 +66,11 @@ $item-size: 40px;
         }
 
         &:hover {
-            transform: scale(1.1);
+            transform: translateY(-2px);
         }
 
         &:active {
-            transform: scale(1.05);
+            transform: none;
         }
     }
 }
