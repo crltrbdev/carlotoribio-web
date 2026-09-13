@@ -45,6 +45,7 @@
                 transition: all 0.25s ease-in-out;
 
                 position: absolute;
+                z-index: 2;
                 top: 50%;
                 transform: translateY(-50%);
 
@@ -54,11 +55,11 @@
             }
 
             .arrow-left {
-                left: -15px;
+                left: -25px;
             }
 
             .arrow-right {
-                right: -15px;
+                right: -25px;
             }
 
             &:hover {
@@ -281,30 +282,10 @@
                     }
                 }
 
+                // touch devices swipe the rail, so the carets only get in the way
                 .arrow-left,
                 .arrow-right {
-                    font-size: 30px;
-                    color: $text-mid;
-                    width: 25px;
-                    cursor: pointer;
-                    opacity: 0;
-                    transition: all 0.25s ease-in-out;
-
-                    position: absolute;
-                    top: 50%;
-                    transform: translateY(-50%);
-
-                    &:hover {
-                        opacity: 1 !important;
-                    }
-                }
-
-                .arrow-left {
-                    left: 0;
-                }
-
-                .arrow-right {
-                    right: 0;
+                    display: none;
                 }
             }
 

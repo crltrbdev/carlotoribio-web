@@ -24,6 +24,12 @@ $item-size: 40px;
             object-fit: contain;
             transition: filter .28s $ease;
         }
+
+        // dark-ink marks need reversing to stay legible on the dark chip
+        &.openai img,
+        &.aws img {
+            filter: brightness(0) invert(1);
+        }
     }
 
     &:hover {
