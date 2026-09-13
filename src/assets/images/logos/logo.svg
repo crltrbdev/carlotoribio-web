@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 604 164" fill="none" role="img" aria-label="Carlo Toribio">
+  <defs>
+    <linearGradient id="ct-mark" x1="18" y1="12" x2="142" y2="158" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2BBCED" />
+      <stop offset="1" stop-color="#205373" />
+    </linearGradient>
+    <linearGradient id="ct-hex" x1="18" y1="158" x2="142" y2="12" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#205373" />
+      <stop offset="1" stop-color="#2BBCED" />
+    </linearGradient>
+  </defs>
+
+  <g stroke-linecap="round" stroke-linejoin="round">
+    <path d="M80 10 142.4 46 142.4 118 80 154 17.6 118 17.6 46Z"
+          stroke="url(#ct-hex)" stroke-width="7" />
+    <path d="M95 57.6A32 32 0 1 0 95 110.4"
+          stroke="url(#ct-mark)" stroke-width="12" />
+    <path d="M89 55.5H127M108 55.5V112"
+          stroke="url(#ct-mark)" stroke-width="12" />
+  </g>
+
+  <text x="174" y="97" font-family="Helvetica, Lato, Arial, sans-serif" font-size="46"
+        font-weight="bold" letter-spacing="2" fill="#2BBCED">CARLO<tspan fill="#8FB4C8" dx="14">TORIBIO</tspan></text>
+</svg>

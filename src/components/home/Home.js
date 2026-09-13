@@ -7,7 +7,7 @@ import ResumePopup from '../resume-popup/ResumePopup';
 
 import './Home.scss';
 
-import logoImg from '../../assets/images/logos/logo.png';
+import logoImg from '../../assets/images/logos/logo.svg';
 import face4 from '../../assets/pics/face4.jpg';
 
 function Home(props) {
