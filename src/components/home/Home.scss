@@ -5,28 +5,43 @@ $header-height: 175px;
 .home-wrapper {
     display: flex;
     flex-direction: column;
+    height: 100%;
 
     header {
-        padding-left: 10px;
+        position: relative;
+        padding: 0 max(28px, calc((100% - 1180px) / 2));
         display: flex;
         flex-direction: row;
         align-items: center;
         gap: $default-distance;
         flex-grow: 0;
-        flex-shrink: 1;
-        height: $header-height;
+        flex-shrink: 0;
+        min-height: $header-height;
+        padding-top: 18px;
+        padding-bottom: 18px;
+        background: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(255, 255, 255, .015));
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border-bottom: 1px solid $stroke;
 
         .profile-picture {
             .profile-pic-container {
-                border: 1px solid $color-border;
+                position: relative;
                 border-radius: 50%;
-                height: $header-height - 25;
-                width: $header-height - 25;
+                height: $header-height - 45;
+                width: $header-height - 45;
                 overflow: hidden;
+                padding: 3px;
+                background: $gradient-accent;
+                box-shadow: 0 0 34px rgba(43, 188, 237, .25);
 
                 img {
-                    height: $header-height - 25;
-                    width: $header-height - 25;
+                    height: 100%;
+                    width: 100%;
+                    border-radius: 50%;
+                    object-fit: cover;
+                    display: block;
+                    background-color: $bg-base;
                 }
             }
         }
@@ -35,6 +50,7 @@ $header-height: 175px;
             padding: 0;
             margin: 0 10px;
             flex-grow: 1;
+            min-width: 0;
 
             .name-role {
                 label {
@@ -44,78 +60,134 @@ $header-height: 175px;
 
             .name-email {
                 display: flex;
-                align-items: baseline;
+                align-items: center;
+                gap: 14px;
 
                 .email {
-                    fill: $dotio-color-light-50;
-                    height: 34px;
-                    width: 34px;
-                    margin: 0 0 0 12px;
+                    fill: $text-low;
+                    color: $text-low;
+                    height: 22px;
+                    width: 22px;
+                    margin: 6px 0 0;
+                    transition: color .2s $ease, transform .2s $ease;
+
+                    &:hover {
+                        color: $accent;
+                        transform: translateY(-2px);
+                    }
                 }
             }
 
             .title {
-                margin-top: 5px;
-                font-size: 3.8em;
-                color: $color-dark-text;
+                margin-top: 0;
+                font-size: 3.1em;
+                font-weight: 700;
+                letter-spacing: -.02em;
+                line-height: 1.05;
+                background: linear-gradient(120deg, #FFFFFF 10%, #BDE8FA 45%, $accent 100%);
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+                -webkit-text-fill-color: transparent;
             }
 
             .subtitle {
-                margin-top: -10px;
-                margin-left: 2px;
-                color: darken($color-light-text, 25%);
-                font-size: 1.5em;
+                margin-top: 8px;
+                font-size: .82em;
+                font-weight: 600;
+                letter-spacing: .18em;
+                text-transform: uppercase;
+                color: $accent;
             }
 
             .summary {
-                margin-top: 2px;
-                margin-bottom: 10px;
-                margin-left: 2px;
-                color: darken($color-light-text, 50%);
-                font-size: .9em;
+                margin: 10px 0 0;
+                padding-bottom: 14px;
+                max-width: 68ch;
+                color: $text-mid;
+                font-size: .92em;
+                line-height: 1.55;
+
+                span {
+                    color: $text-mid;
+                }
+
+                a {
+                    color: $accent;
+                }
             }
         }
 
         .social {
             display: flex;
             flex-direction: column;
-            padding: 0px 25px;
-            background-color: $dotio-color-light-55;
-            height: 100%;
+            padding: 0;
+            background-color: transparent;
+            height: auto;
             flex-grow: 0;
             flex-shrink: 0;
-            gap: 5px;
-            border-left: 1px solid $color-border;
+            gap: 10px;
+            border-left: 0;
             justify-content: center;
             align-items: center;
 
+            a,
             .icon {
-                fill: $dotio-color-light;
-                font-size: 2em;
+                display: flex;
+            }
+
+            .icon {
+                fill: $text-mid;
+                color: $text-mid;
+                font-size: 1.15em;
+                height: 42px;
+                width: 42px;
+                padding: 10px;
+                border-radius: $radius-sm;
+                border: 1px solid $stroke;
+                background: $surface-1;
+                cursor: pointer;
+                transition: all .22s $ease;
+
+                &:hover {
+                    color: $accent;
+                    fill: $accent;
+                    border-color: rgba(43, 188, 237, .4);
+                    background: $accent-soft;
+                    transform: translateY(-2px);
+                }
 
                 &.resume {
-                    font-size: 1.6em;
-                    cursor: pointer;
+                    font-size: 1.15em;
                 }
             }
         }
     }
 
     .main-container {
+        position: relative;
         display: flex;
         flex-direction: column;
-        background-color: $color-dark-bg;
+        background-color: transparent;
         flex-grow: 1;
+        min-height: 0;
         align-items: center;
-        border-top: 1px solid $color-border;
+        border-top: 0;
 
         .logo-image {
-            width: 175px;
-            margin: 10px auto 2px;
+            width: 84px;
+            margin: 18px auto 6px;
+            animation: rise-in .5s $ease both;
 
             img {
                 height: inherit;
                 width: inherit;
+                filter: drop-shadow(0 6px 18px rgba(43, 188, 237, .28));
+                transition: transform .3s $ease;
+
+                &:hover {
+                    transform: translateY(-3px) scale(1.04);
+                }
             }
         }
 
@@ -130,27 +202,23 @@ $header-height: 175px;
         $header-height-shrunk: $header-height * .65;
 
         header {
-            gap: 10px;
-            padding: 0;
-            margin-top: -8px;
-            margin-left: 8px;
-            height: $header-height-shrunk + 15;
+            gap: 12px;
+            padding: 10px;
+            margin: 0;
+            min-height: $header-height-shrunk;
             justify-content: center;
             align-items: center;
-            justify-items: center;
 
             .profile-picture {
-                width: $header-height-shrunk - 15;
+                width: $header-height-shrunk - 35;
 
                 .profile-pic-container {
-                    height: $header-height-shrunk - 15;
-                    width: $header-height-shrunk - 15;
+                    height: $header-height-shrunk - 35;
+                    width: $header-height-shrunk - 35;
 
                     img {
-                        object-fit: contain;
-                        height: $header-height-shrunk - 15;
-                        width: $header-height-shrunk - 15;
-                        object-position: 0 0;
+                        object-fit: cover;
+                        object-position: center;
                     }
                 }
             }
@@ -162,39 +230,41 @@ $header-height: 175px;
                 flex-basis: 66%;
 
                 .name-email {
+                    gap: 8px;
+
                     .email {
-                        height: 18px;
-                        width: 18px;
-                        margin: 0 0 0px 5px;
+                        height: 16px;
+                        width: 16px;
+                        margin: 2px 0 0;
                     }
                 }
 
                 .title {
-                    font-size: 1.5em;
+                    font-size: 1.3em;
                 }
 
                 .subtitle {
-                    font-size: 0.9em;
-                    margin: 2px 0;
+                    font-size: .54em;
+                    letter-spacing: .12em;
+                    margin-top: 4px;
                 }
 
                 .summary {
-                    color: darken($color-light-text, 50%);
-                    font-size: .75em;
+                    margin-top: 6px;
+                    padding-bottom: 8px;
+                    font-size: .72em;
                     display: flex;
                 }
             }
 
             .social {
-                padding: 0px 8px;
-                gap: 8px;
-                
+                gap: 6px;
+
                 .icon {
-                    fill: $dotio-color-light;
-                    padding: 0;
-                    margin: 0;
-                    height: 25px;
-                    width: 25px;
+                    height: 30px;
+                    width: 30px;
+                    padding: 7px;
+                    border-radius: 8px;
                 }
             }
         }
