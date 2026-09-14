@@ -20,19 +20,53 @@ $palette-clear: #efefef;
 
 $default-distance: 20px;
 
-$color-dark-bg: $palette-primary;
-
-$color-light-text: lighten($palette-primary, 80%);
-$color-dark-text: $palette-primary;
-
-$color-border: $palette-primary;
 $color-error: #d16969;
 $color-warning: #cca700;
-$color-success: #00a4a4;
+$color-success: #3ddc97;
 $color-neutral: #888;
 
+$disabled-color: #4a5a6a;
 
-$accent-color: #1d1c1c;
-$accent-color-lighter: lighten($accent-color, 25%);
+// --- surfaces -------------------------------------------------------------
+$bg-base: #0B0F14;
+$bg-deep: #070A0E;
+$surface-1: rgba(255, 255, 255, .035);
+$surface-2: rgba(255, 255, 255, .06);
+$surface-solid: #121821;
+$stroke: rgba(255, 255, 255, .09);
+$stroke-strong: rgba(255, 255, 255, .16);
 
-$disabled-color: #888;
+// --- text -----------------------------------------------------------------
+$text-hi: #E9F2F8;
+$text-mid: #9FB3C8;
+$text-low: #64798F;
+
+// --- accents --------------------------------------------------------------
+$accent: $logo-blue-secondary;
+$accent-deep: $logo-blue-primary;
+$accent-soft: rgba(43, 188, 237, .16);
+$accent-glow: rgba(43, 188, 237, .35);
+$gradient-accent: linear-gradient(135deg, #6FE3FF 0%, $accent 45%, #3C7FD0 100%);
+
+// --- shape & motion -------------------------------------------------------
+$radius-sm: 10px;
+$radius-md: 16px;
+$radius-lg: 24px;
+$radius-pill: 999px;
+
+$shadow-sm: 0 2px 8px rgba(0, 0, 0, .35);
+$shadow-md: 0 12px 32px rgba(0, 0, 0, .45);
+$shadow-glow: 0 0 0 1px rgba(43, 188, 237, .35), 0 8px 30px rgba(43, 188, 237, .18);
+
+$ease: cubic-bezier(.22, .61, .36, 1);
+
+$font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+$font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+// --- legacy aliases, kept so older rules keep compiling -------------------
+$color-dark-bg: $bg-base;
+$color-light-text: $text-hi;
+$color-dark-text: $text-hi;
+$color-border: $stroke;
+$accent-color: $text-hi;
+$accent-color-lighter: $text-mid;
