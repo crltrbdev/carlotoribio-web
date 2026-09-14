@@ -47,7 +47,7 @@ function Home(props) {
                                     <FaAt className="email" />
                                 </a>
                             </div>
-                            <label className="subtitle">Software Architect & AI Enthusiast at KPMG</label>
+                            <label className="subtitle">Software Architect & AI Engineer at KPMG</label>
                             <label className="summary">
                                 Welcome! I’m Carlo Toribio, a software architect at KPMG US. <span className='mobile-hide'>I merge technical prowess with strategic foresight across 15+ years of enterprise architecture in the health, financial and education industries — leading cloud transformations, modernizing legacy platforms, and exploring where AI genuinely belongs in a product.</span> Ask my OpenAI Chatbot about my professional experience.
                             </label>
