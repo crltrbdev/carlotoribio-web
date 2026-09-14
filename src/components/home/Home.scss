@@ -15,8 +15,10 @@ $header-height: 175px;
         align-items: center;
         gap: $default-distance;
         flex-grow: 0;
-        flex-shrink: 1;
-        height: $header-height;
+        flex-shrink: 0;
+        min-height: $header-height;
+        padding-top: 18px;
+        padding-bottom: 18px;
         background: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(255, 255, 255, .015));
         backdrop-filter: blur(14px);
         -webkit-backdrop-filter: blur(14px);
@@ -100,6 +102,7 @@ $header-height: 175px;
 
             .summary {
                 margin: 10px 0 0;
+                padding-bottom: 14px;
                 max-width: 68ch;
                 color: $text-mid;
                 font-size: .92em;
@@ -200,9 +203,9 @@ $header-height: 175px;
 
         header {
             gap: 12px;
-            padding: 0 10px;
+            padding: 10px;
             margin: 0;
-            height: $header-height-shrunk;
+            min-height: $header-height-shrunk;
             justify-content: center;
             align-items: center;
 
@@ -248,6 +251,7 @@ $header-height: 175px;
 
                 .summary {
                     margin-top: 6px;
+                    padding-bottom: 8px;
                     font-size: .72em;
                     display: flex;
                 }
