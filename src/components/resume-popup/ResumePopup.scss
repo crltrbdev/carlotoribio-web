@@ -160,6 +160,11 @@
                 .dotio-input {
                     font-size: .9em;
                     width: 100%;
+
+                    .input-wrapper input[type="email"] {
+                        // iOS zooms the page in on focus for anything below 16px
+                        font-size: 16px;
+                    }
                 }
 
                 .at-icon {
