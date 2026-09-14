@@ -8,7 +8,7 @@ import ResumePopup from '../resume-popup/ResumePopup';
 import './Home.scss';
 
 import logoImg from '../../assets/images/logos/logo.png';
-import face4 from '../../assets/pics/face4.jpg';
+import facePicture from '../../assets/pics/face5.jpg';
 
 function Home(props) {
     const [isResumePopupOpen, setIsResumePopupOpen] = useState(false);
@@ -35,7 +35,7 @@ function Home(props) {
                 <header>
                     <div className="profile-picture">
                         <div className='profile-pic-container'>
-                            <img src={face4} alt="profile" />
+                            <img src={facePicture} alt="profile" />
                         </div>
                     </div>
 
