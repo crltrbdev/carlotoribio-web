@@ -1,14 +1,17 @@
 @import "src/assets/styles/variables.scss";
 
 .footer-wrapper {
-    border-top: solid 1px $color-border;
+    border-top: solid 1px $stroke;
+    background: rgba(255, 255, 255, .02);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     padding: 10px 0;
     display: flex;
-    
+
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 14px;
 
     .footer-border {
         margin: 0 auto;
@@ -19,12 +22,24 @@
 
         .poweredBy {
             height: 25px;
+            filter: brightness(0) invert(1);
+            opacity: .55;
+            transition: opacity .2s $ease;
+
+            &:hover {
+                opacity: .85;
+            }
         }
     }
 
     .copyright {
         text-align: center;
-        font-size: .75em;
+        font-size: .72em;
+        letter-spacing: .04em;
+
+        label {
+            color: $text-low;
+        }
     }
 
     @media screen and (max-width: 767px) {
