@@ -119,7 +119,7 @@
                         color: $text-hi;
                         background: $accent-soft;
                         border-color: rgba(43, 188, 237, .45);
-                        transform: translateY(-2px);
+                        box-shadow: 0 0 0 1px rgba(43, 188, 237, .25);
                     }
                 }
             }
@@ -132,7 +132,7 @@
 
     .chat-panel-wrapper {
         position: absolute;
-        margin: 30px 0 0;
+        margin: 46px 0 0;
         width: 725px;
         top: 180px;
         bottom: 0;
@@ -175,7 +175,7 @@
         position: absolute;
         height: 70px;
         width: 70px;
-        margin-top: 20px;
+        margin-top: 36px;
         top: 170px;
         bottom: 0px;
         left: 50%;
