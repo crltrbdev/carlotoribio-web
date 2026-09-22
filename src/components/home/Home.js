@@ -8,7 +8,7 @@ import ResumePopup from '../resume-popup/ResumePopup';
 import './Home.scss';
 
 import logoImg from '../../assets/images/logos/logo.png';
-import facePicture from '../../assets/pics/face5.jpg';
+import facePicture from '../../assets/pics/face6.jpg';
 
 function Home(props) {
     const [isResumePopupOpen, setIsResumePopupOpen] = useState(false);
