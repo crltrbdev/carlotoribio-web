@@ -10,6 +10,8 @@ import SkillItem from '../skill-item/SkillItem';
 import './Chat.scss';
 import cookieManager from '../../util/CookieManager';
 
+const SCROLL_THRESHOLD = 100; // px scrolled before the scroll-to-top button appears
+
 function Chat(props) {
     const NO_TOKENS_PROMPT = process.env.REACT_APP_NO_TOKENS_PROMPT;
     const GREETING_PROMPT = process.env.REACT_APP_GREETING_PROMPT;
@@ -32,10 +34,9 @@ function Chat(props) {
 
     const [query, setQuery] = useState("");
 
-    const [showNewAnswer, setShowNewAnswer] = useState(false);
+    const [showScrollToTop, setShowScrollToTop] = useState(false);
     const [chatHistory, setChatHistory] = useState([]);
 
-    const [scrollThresholdDirection, setScrollThresholdDirection] = useState('none');
     const [chatItems, setChatItems] = useState([]);
     const [isWaitingForAnswer, setIsWaitingForAnswer] = useState(false);
 
@@ -78,13 +79,8 @@ function Chat(props) {
         setChatHistory(old => [...old, `[assistant] ${greeting}`]);
     }, [greeting]);
 
-    useEffect(() => {
-        setShowNewAnswer(scrollDivRef.current.scrollTop >= 5)
-    }, [chatItems]);
-
     function scrollToTop() {
         scrollDivRef.current.scrollTo({ top: 0, behavior: 'smooth' });
-        setShowNewAnswer(false);
     }
 
     function handleSkillClick(event) {
@@ -102,6 +98,7 @@ function Chat(props) {
     }
 
     async function handleGetCompletion(event) {
+        scrollToTop();
         const canAsk = cookieManager.canAskQuestion();
 
         if (query === "" || isWaitingForAnswer) {
@@ -246,28 +243,7 @@ function Chat(props) {
     }
 
     function handleScroll() {
-
-        if (chatItems.length < 3) {
-            return;
-        }
-
-        const currentScroll = scrollDivRef.current.scrollTop;
-        if (currentScroll === 0) {
-            setShowNewAnswer(false);
-        }
-
-        let command = '';
-        if (currentScroll > 25) {
-            command = 'hide';
-        }
-
-        if (currentScroll <= 100) {
-            command = 'show';
-        }
-
-        if (command !== scrollThresholdDirection) {
-            setScrollThresholdDirection(command);
-        }
+        setShowScrollToTop(scrollDivRef.current.scrollTop > SCROLL_THRESHOLD);
     }
 
     return <>
@@ -337,7 +313,7 @@ function Chat(props) {
             </div>
 
             <div className="chat-panel-wrapper">
-                <button className={showNewAnswer ? "scroll-to-top new-answer" : "scroll-to-top"}
+                <button className={showScrollToTop ? "scroll-to-top visible" : "scroll-to-top"}
                     onClick={scrollToTop}>
                     <FaArrowUp />
                 </button>
