@@ -15,6 +15,18 @@ function Chat(props) {
     const GREETING_PROMPT = process.env.REACT_APP_GREETING_PROMPT;
     const RESUME_LINK = process.env.REACT_APP_RESUME_LINK;
 
+    const PROMPT_SUGGESTIONS = [
+        "What are Carlo's Career highlights?",
+        "Which big-name clients has Carlo worked with?",
+        "How was this website built?",
+        "What's Carlo's experience leading engineering teams?",
+        "Is Carlo a fit for a Tech Lead or Architect role?",
+        "Which tech stacks is Carlo strongest in?",
+        "What are Carlo's personal projects?",
+        "Should I hire Carlo?",
+        "How can I contact Carlo?"
+    ];
+
     const {
         openResumePopup
     } = props;
@@ -315,41 +327,11 @@ function Chat(props) {
                 <div className='suggestions-container'>
                     <FaCaretLeft className="arrow-left" onClick={handleScrollLeft} />
                     <ul ref={ulScrollRef} className="prompt-suggestions">
-                        <li>
-                            <button onClick={handlePromptSuggestionClick}>
-                                Tell me more about Carlo's experience in Tech
-                            </button>
-                        </li>
-                        <li>
-                            <button onClick={handlePromptSuggestionClick}>
-                                Tell me how this website was developed
-                            </button>
-                        </li>
-                        <li>
-                            <button onClick={handlePromptSuggestionClick}>
-                                Tell me about Carlo's experience with Mobile development
-                            </button>
-                        </li>
-                        <li>
-                            <button onClick={handlePromptSuggestionClick}>
-                                Tell me about Carlo's experience across industries
-                            </button>
-                        </li>
-                        <li>
-                            <button onClick={handlePromptSuggestionClick}>
-                                What are Carlo's hobbies?
-                            </button>
-                        </li>
-                        <li>
-                            <button onClick={handlePromptSuggestionClick}>
-                                Should I hire Carlo?
-                            </button>
-                        </li>
-                        <li>
-                            <button onClick={handlePromptSuggestionClick}>
-                                Can I contact Carlo directly?
-                            </button>
-                        </li>
+                        {PROMPT_SUGGESTIONS.map(text => (
+                            <li key={text}>
+                                <button onClick={handlePromptSuggestionClick}>{text}</button>
+                            </li>
+                        ))}
                     </ul>
                     <FaCaretRight className="arrow-right" onClick={handleScrollRight} />
                 </div>

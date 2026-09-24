@@ -38,10 +38,16 @@ function SkillItem(props) {
         }
     }
 
+    const DISPLAY_NAMES = {
+    DotNet: '.NET',
+    OpenAI: 'OpenAI and LLMs'
+};
+
     const clickHandler = () => {
         if (props.onClick) {
+            const skill = DISPLAY_NAMES[props.title] || props.title;
             props.onClick(
-                `Tell me more about Carlo's experience with ${props.title}`
+                `What has Carlo built with ${skill}, and how deep is his experience?`
             );
         }
     }
