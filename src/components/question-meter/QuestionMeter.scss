@@ -1,0 +1,118 @@
+@import "src/assets/styles/variables.scss";
+
+.question-meter {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    align-self: center;
+    margin-top: 10px;
+    padding: 6px 14px 6px 12px;
+    border-radius: $radius-pill;
+    border: 1px solid $stroke;
+    background: $surface-1;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    color: $text-mid;
+    font-size: .8rem;
+    letter-spacing: .01em;
+    transition: border-color .25s ease, background .25s ease, color .25s ease;
+
+    .meter-icon {
+        display: flex;
+        align-items: center;
+        font-size: .75rem;
+        color: $accent;
+        transition: color .25s ease;
+    }
+
+    .meter-pips {
+        display: inline-flex;
+        gap: 5px;
+
+        .pip {
+            width: 16px;
+            height: 5px;
+            border-radius: $radius-pill;
+            background: rgba(255, 255, 255, .12);
+            transition: background .35s ease, box-shadow .35s ease, transform .35s ease;
+
+            &.available {
+                background: $gradient-accent;
+                box-shadow: 0 0 10px $accent-glow;
+            }
+
+            &.spent {
+                transform: scaleX(.8);
+            }
+        }
+    }
+
+    .meter-label {
+        white-space: nowrap;
+
+        b {
+            color: $text-hi;
+            font-weight: 600;
+            font-variant-numeric: tabular-nums;
+        }
+    }
+
+    &.last-one {
+        border-color: rgba(204, 167, 0, .45);
+
+        .meter-icon {
+            color: $color-warning;
+        }
+
+        .pip.available {
+            background: $color-warning;
+            box-shadow: 0 0 10px rgba(204, 167, 0, .35);
+        }
+    }
+
+    &.depleted {
+        border-color: rgba(209, 105, 105, .4);
+        color: $text-low;
+
+        .meter-icon {
+            color: $color-error;
+            animation: meter-tick 2s ease-in-out infinite;
+        }
+
+        .meter-label b {
+            color: $color-error;
+        }
+    }
+}
+
+@keyframes meter-tick {
+
+    0%,
+    100% {
+        opacity: .5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .question-meter {
+        gap: 8px;
+        padding: 5px 12px 5px 10px;
+        font-size: .72rem;
+
+        .meter-pips .pip {
+            width: 13px;
+            height: 4px;
+        }
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .question-meter * {
+        animation: none !important;
+        transition: none !important;
+    }
+}

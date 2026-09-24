@@ -4,7 +4,7 @@ const cookieResetTime = 1000 * 60 * 60;
 
 class CookieManager {
     promoHashtag = process.env.REACT_APP_PROMO_HASHTAG;
-    maxTokens = process.env.REACT_APP_MAX_QUESTION_TOKENS;
+    maxTokens = parseInt(process.env.REACT_APP_MAX_QUESTION_TOKENS) || 5;
 
     resetChatTokens() {
         this.setCookie(tokenCountCookieName, this.maxTokens);

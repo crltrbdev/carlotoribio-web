@@ -6,6 +6,7 @@ import OpenAIService from '../../services/OpenAIService';
 
 import ChatItem from '../chat-item/ChatItem';
 import SkillItem from '../skill-item/SkillItem';
+import QuestionMeter from '../question-meter/QuestionMeter';
 
 import './Chat.scss';
 import cookieManager from '../../util/CookieManager';
@@ -27,6 +28,12 @@ function Chat(props) {
     const [scrollThresholdDirection, setScrollThresholdDirection] = useState('none');
     const [chatItems, setChatItems] = useState([]);
     const [isWaitingForAnswer, setIsWaitingForAnswer] = useState(false);
+
+    const [questionsLeft, setQuestionsLeft] = useState(() => {
+        cookieManager.canAskQuestion();
+        return cookieManager.getChatTokens();
+    });
+    const [countdown, setCountdown] = useState(cookieManager.getCountdownToTokenReset(false, false));
 
     const inputRef = useRef(null);
     const scrollDivRef = useRef(null);
@@ -71,6 +78,23 @@ function Chat(props) {
         setShowNewAnswer(scrollDivRef.current.scrollTop >= 5)
     }, [chatItems]);
 
+    useEffect(() => {
+        if (questionsLeft > 0) {
+            return;
+        }
+
+        const interval = setInterval(() => {
+            setCountdown(cookieManager.getCountdownToTokenReset(false, false));
+
+            if (cookieManager.getSecondsToReset() <= 0) {
+                cookieManager.canAskQuestion();
+                setQuestionsLeft(cookieManager.getChatTokens());
+            }
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, [questionsLeft]);
+
     function scrollToTop() {
         scrollDivRef.current.scrollTo({ top: 0, behavior: 'smooth' });
         setShowNewAnswer(false);
@@ -110,7 +134,7 @@ function Chat(props) {
         if (event.key === 'Enter' || event.type === 'click') {
             setIsWaitingForAnswer(true);
 
-            cookieManager.reduceChatTokens();
+            setQuestionsLeft(cookieManager.reduceChatTokens());
 
             const queryChatItem = {
                 chatId: uuidv4(),
@@ -287,6 +311,11 @@ function Chat(props) {
                 <span style={{ marginRight: 30, color: 'red' }}>Reset time: {cookieManager.getTokenResetTime()}</span>
                 <span style={{ marginRight: 30, color: 'red' }}>Time to Reset: {cookieManager.getCountdownToTokenReset()}</span>
             </p> */}
+
+            <QuestionMeter
+                maxQuestions={cookieManager.maxTokens}
+                questionsLeft={questionsLeft}
+                countdown={countdown} />
 
             <div className="technical-skills-wrapper">
                 <div className="skills-container">
