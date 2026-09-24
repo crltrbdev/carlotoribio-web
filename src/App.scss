@@ -33,6 +33,12 @@
         min-height: 0;
     }
 
+    .page {
+        position: relative;
+        flex-grow: 1;
+        min-height: 0;
+    }
+
     .footer {
         position: relative;
         flex-grow: 0;

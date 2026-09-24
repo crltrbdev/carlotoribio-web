@@ -1,0 +1,194 @@
+@import "src/assets/styles/variables.scss";
+
+.blog-post-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+
+    .blog-scroll {
+        flex-grow: 1;
+        min-height: 0;
+        overflow-y: auto;
+    }
+
+    .post-article {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 36px 24px 56px;
+        animation: rise-in .45s $ease both;
+
+        .post-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: .78em;
+            color: $text-low;
+            font-family: $font-mono;
+
+            .meta-dot {
+                color: $accent;
+            }
+        }
+
+        .post-title {
+            margin: 12px 0 14px;
+            font-size: 2.1em;
+            font-weight: 700;
+            letter-spacing: -.02em;
+            line-height: 1.15;
+            background: linear-gradient(120deg, #FFFFFF 10%, #BDE8FA 45%, $accent 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .post-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            padding-bottom: 22px;
+            border-bottom: 1px solid $stroke;
+
+            .tag {
+                font-size: .7em;
+                font-family: $font-mono;
+                color: $accent;
+                background: $accent-soft;
+                border: 1px solid rgba(43, 188, 237, .25);
+                border-radius: $radius-pill;
+                padding: 3px 10px;
+            }
+        }
+
+        .post-body {
+            margin-top: 8px;
+            font-size: .95em;
+            line-height: 1.75;
+            color: $text-mid;
+
+            .post-loading {
+                color: $text-low;
+                font-family: $font-mono;
+                font-size: .85em;
+            }
+
+            p {
+                margin: 0 0 1.25em;
+            }
+
+            h2 {
+                margin: 1.9em 0 .7em;
+                font-size: 1.35em;
+                font-weight: 700;
+                letter-spacing: -.01em;
+                color: $text-hi;
+            }
+
+            h3 {
+                margin: 1.6em 0 .6em;
+                font-size: 1.1em;
+                font-weight: 600;
+                color: $text-hi;
+            }
+
+            strong {
+                color: $text-hi;
+                font-weight: 600;
+            }
+
+            ul,
+            ol {
+                margin: 0 0 1.25em;
+                padding-left: 1.4em;
+
+                li {
+                    margin-bottom: .45em;
+
+                    &::marker {
+                        color: $accent;
+                    }
+                }
+            }
+
+            blockquote {
+                margin: 1.5em 0;
+                padding: 4px 0 4px 18px;
+                border-left: 3px solid $accent;
+                color: $text-hi;
+                font-style: italic;
+                background: linear-gradient(90deg, $accent-soft, transparent 70%);
+                border-radius: 0 $radius-sm $radius-sm 0;
+
+                p {
+                    margin: 0;
+                    padding: 8px 0;
+                }
+            }
+
+            code {
+                font-family: $font-mono;
+                font-size: .85em;
+                color: #BDE8FA;
+                background: $surface-2;
+                border: 1px solid $stroke;
+                border-radius: 6px;
+                padding: 2px 6px;
+            }
+
+            pre {
+                margin: 1.4em 0;
+                padding: 16px 18px;
+                border-radius: $radius-sm;
+                border: 1px solid $stroke;
+                background: $bg-deep;
+                overflow-x: auto;
+
+                code {
+                    display: block;
+                    padding: 0;
+                    border: none;
+                    background: transparent;
+                    color: $text-hi;
+                    line-height: 1.6;
+                }
+            }
+
+            hr {
+                border: none;
+                border-top: 1px solid $stroke;
+                margin: 2em 0;
+            }
+        }
+
+        .post-end {
+            margin-top: 40px;
+            padding-top: 22px;
+            border-top: 1px solid $stroke;
+
+            .back-to-blog {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                font-size: .85em;
+                font-weight: 600;
+                color: $accent;
+            }
+        }
+    }
+
+    @media only screen and (max-width: 768px) {
+        .post-article {
+            padding: 24px 18px 40px;
+
+            .post-title {
+                font-size: 1.55em;
+            }
+
+            .post-body {
+                font-size: .9em;
+            }
+        }
+    }
+}

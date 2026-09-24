@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { FaAt, FaGithub } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import { FaAt, FaGithub, FaFeatherAlt } from 'react-icons/fa';
 import { FaFileLines, FaLinkedin } from 'react-icons/fa6';
 
 import Chat from '../chat/Chat';
@@ -62,6 +63,9 @@ function Home(props) {
                             <FaLinkedin className="icon" />
                         </a>
                         <FaFileLines onClick={openPopup} className="icon resume" />
+                        <Link to="/blog" title="Blog">
+                            <FaFeatherAlt className="icon" />
+                        </Link>
                     </div>
                 </header>
                 <section className='main-container'>
