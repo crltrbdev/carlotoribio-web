@@ -20,7 +20,6 @@ function Chat(props) {
         "Which big-name clients has Carlo worked with?",
         "How was this website built?",
         "What's Carlo's experience leading engineering teams?",
-        "Is Carlo a fit for a Tech Lead or Architect role?",
         "Which tech stacks is Carlo strongest in?",
         "What are Carlo's personal projects?",
         "Should I hire Carlo?",
