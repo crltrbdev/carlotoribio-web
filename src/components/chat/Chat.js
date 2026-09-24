@@ -10,10 +10,23 @@ import SkillItem from '../skill-item/SkillItem';
 import './Chat.scss';
 import cookieManager from '../../util/CookieManager';
 
+const SCROLL_THRESHOLD = 100; // px scrolled before the scroll-to-top button appears
+
 function Chat(props) {
     const NO_TOKENS_PROMPT = process.env.REACT_APP_NO_TOKENS_PROMPT;
     const GREETING_PROMPT = process.env.REACT_APP_GREETING_PROMPT;
     const RESUME_LINK = process.env.REACT_APP_RESUME_LINK;
+
+    const PROMPT_SUGGESTIONS = [
+        "What are Carlo's Career highlights?",
+        "Which big-name clients has Carlo worked with?",
+        "How was this website built?",
+        "What's Carlo's experience leading engineering teams?",
+        "Which tech stacks is Carlo strongest in?",
+        "What are Carlo's personal projects?",
+        "Should I hire Carlo?",
+        "How can I contact Carlo?"
+    ];
 
     const {
         openResumePopup
@@ -21,10 +34,9 @@ function Chat(props) {
 
     const [query, setQuery] = useState("");
 
-    const [showNewAnswer, setShowNewAnswer] = useState(false);
+    const [showScrollToTop, setShowScrollToTop] = useState(false);
     const [chatHistory, setChatHistory] = useState([]);
 
-    const [scrollThresholdDirection, setScrollThresholdDirection] = useState('none');
     const [chatItems, setChatItems] = useState([]);
     const [isWaitingForAnswer, setIsWaitingForAnswer] = useState(false);
 
@@ -67,13 +79,8 @@ function Chat(props) {
         setChatHistory(old => [...old, `[assistant] ${greeting}`]);
     }, [greeting]);
 
-    useEffect(() => {
-        setShowNewAnswer(scrollDivRef.current.scrollTop >= 5)
-    }, [chatItems]);
-
     function scrollToTop() {
         scrollDivRef.current.scrollTo({ top: 0, behavior: 'smooth' });
-        setShowNewAnswer(false);
     }
 
     function handleSkillClick(event) {
@@ -91,6 +98,7 @@ function Chat(props) {
     }
 
     async function handleGetCompletion(event) {
+        scrollToTop();
         const canAsk = cookieManager.canAskQuestion();
 
         if (query === "" || isWaitingForAnswer) {
@@ -235,28 +243,7 @@ function Chat(props) {
     }
 
     function handleScroll() {
-
-        if (chatItems.length < 3) {
-            return;
-        }
-
-        const currentScroll = scrollDivRef.current.scrollTop;
-        if (currentScroll === 0) {
-            setShowNewAnswer(false);
-        }
-
-        let command = '';
-        if (currentScroll > 25) {
-            command = 'hide';
-        }
-
-        if (currentScroll <= 100) {
-            command = 'show';
-        }
-
-        if (command !== scrollThresholdDirection) {
-            setScrollThresholdDirection(command);
-        }
+        setShowScrollToTop(scrollDivRef.current.scrollTop > SCROLL_THRESHOLD);
     }
 
     return <>
@@ -315,48 +302,18 @@ function Chat(props) {
                 <div className='suggestions-container'>
                     <FaCaretLeft className="arrow-left" onClick={handleScrollLeft} />
                     <ul ref={ulScrollRef} className="prompt-suggestions">
-                        <li>
-                            <button onClick={handlePromptSuggestionClick}>
-                                Tell me more about Carlo's experience in Tech
-                            </button>
-                        </li>
-                        <li>
-                            <button onClick={handlePromptSuggestionClick}>
-                                Tell me how this website was developed
-                            </button>
-                        </li>
-                        <li>
-                            <button onClick={handlePromptSuggestionClick}>
-                                Tell me about Carlo's experience with Mobile development
-                            </button>
-                        </li>
-                        <li>
-                            <button onClick={handlePromptSuggestionClick}>
-                                Tell me about Carlo's experience across industries
-                            </button>
-                        </li>
-                        <li>
-                            <button onClick={handlePromptSuggestionClick}>
-                                What are Carlo's hobbies?
-                            </button>
-                        </li>
-                        <li>
-                            <button onClick={handlePromptSuggestionClick}>
-                                Should I hire Carlo?
-                            </button>
-                        </li>
-                        <li>
-                            <button onClick={handlePromptSuggestionClick}>
-                                Can I contact Carlo directly?
-                            </button>
-                        </li>
+                        {PROMPT_SUGGESTIONS.map(text => (
+                            <li key={text}>
+                                <button onClick={handlePromptSuggestionClick}>{text}</button>
+                            </li>
+                        ))}
                     </ul>
                     <FaCaretRight className="arrow-right" onClick={handleScrollRight} />
                 </div>
             </div>
 
             <div className="chat-panel-wrapper">
-                <button className={showNewAnswer ? "scroll-to-top new-answer" : "scroll-to-top"}
+                <button className={showScrollToTop ? "scroll-to-top visible" : "scroll-to-top"}
                     onClick={scrollToTop}>
                     <FaArrowUp />
                 </button>
