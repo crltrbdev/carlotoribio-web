@@ -80,7 +80,7 @@ function Chat(props) {
         setChatHistory(old => [...old, `[assistant] ${greeting}`]);
     }, [greeting]);
 
-    function scrollToTop() {
+    function  {
         scrollDivRef.current.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -99,7 +99,6 @@ function Chat(props) {
     }
 
     async function handleGetCompletion(event) {
-        scrollToTop();
         const canAsk = cookieManager.canAskQuestion();
 
         if (query === "" || isWaitingForAnswer) {
@@ -117,6 +116,8 @@ function Chat(props) {
         }
 
         if (event.key === 'Enter' || event.type === 'click') {
+            scrollToTop();
+        
             setIsWaitingForAnswer(true);
 
             cookieManager.reduceChatTokens();
