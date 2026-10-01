@@ -19,11 +19,11 @@ function Chat(props) {
 
     const PROMPT_SUGGESTIONS = [
         "What are Carlo's Career highlights?",
+        "What has Carlo built with RAG and LLMs?",
+        "What's Carlo's cloud and AWS experience?",
         "Which big-name clients has Carlo worked with?",
         "How was this website built?",
         "What's Carlo's experience leading engineering teams?",
-        "Which tech stacks is Carlo strongest in?",
-        "What are Carlo's personal projects?",
         "Should I hire Carlo?",
         "How can I contact Carlo?"
     ];
@@ -67,20 +67,20 @@ function Chat(props) {
                         chatItemData.setAnswer(currentAnswer);
 
                         if (index === words.length - 1) {
-                            onStreamComplete();
+                            onStreamComplete(currentAnswer);
                         }
                     }, index * 50);
                 });
 
-                function onStreamComplete() {
+                function onStreamComplete(finalAnswer) {
                     chatItemData.setIsStreaming(false);
                     setIsWaitingForAnswer(false);
+                    setChatHistory(old => [...old, `[assistant] ${finalAnswer}`]);
                 }
             }
         };
 
         setChatItems([greetingChatItem]);
-        setChatHistory(old => [...old, `[assistant] ${greeting}`]);
     }, [greeting]);
 
     function scrollToTop() {
@@ -154,6 +154,8 @@ function Chat(props) {
 
                     setIsWaitingForAnswer(false);
                     chatItemData.setIsStreaming(false);
+                    console.log("Answer:", answer);
+                    setChatHistory(old => [...old, `[assistant] ${answer}`]);
 
                     return answer;
                 }
