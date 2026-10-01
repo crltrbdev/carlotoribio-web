@@ -45,7 +45,10 @@ function Chat(props) {
     const scrollDivRef = useRef(null);
     const ulScrollRef = useRef(null);
 
-    const greeting = useMemo(() => GREETING_PROMPT, [GREETING_PROMPT]);
+    const greeting = useMemo(
+    () => GREETING_PROMPT.replace(/\\n/g, '\n'),
+    [GREETING_PROMPT]
+    );
 
     useEffect(() => {
         const greetingChatItem = {
