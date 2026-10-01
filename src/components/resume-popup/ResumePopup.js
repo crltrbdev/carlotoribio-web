@@ -17,6 +17,9 @@ function ResumePopup(props) {
     const [isValid, setIsValid] = useState(false);
     const [email, setEmail] = useState('');
     const [isEmailSent, setIsEmailSent] = useState(false);
+    const [isSending, setIsSending] = useState(false);
+    const [error, setError] = useState('');
+    const sendingRef = useRef(false); // blocks double-clicks instantly (state updates are async)
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
 
@@ -26,11 +29,9 @@ function ResumePopup(props) {
         }
     }, [])
 
-    const handleEmailSubmit = (close) => {
-        if(isValid) {
-            submitEmail();
-        }
-    };
+    
+
+    const handleEmailSubmit = () => submitEmail();
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
@@ -38,10 +39,8 @@ function ResumePopup(props) {
     }
 
     const handleOnKeyDown = (e) => {
-        if (isValid) {
-            if (e.key === 'Enter' || e.type === 'click') {
-                submitEmail();
-            }
+        if (e.key === 'Enter') {
+            submitEmail();
         }
     }
 
@@ -49,15 +48,31 @@ function ResumePopup(props) {
         setEmail('');
         setIsEmailSent(false);
         setIsValid(false);
+        setIsSending(false);
+        setError('');
+        sendingRef.current = false;
         onClose(e);
-    }
+    };
 
     const submitEmail = async () => {
-        if (isValid) {
-            openAIService.sendResumEmail(email);
+        if (!isValid || sendingRef.current) return;
+
+        sendingRef.current = true;
+        setIsSending(true);
+        setError('');
+
+        try {
+            const res = await openAIService.sendResumEmail(email);
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
             setIsEmailSent(true);
+        } catch (err) {
+            console.error(err);
+            setError('Something went wrong. Please try again.');
+        } finally {
+            sendingRef.current = false;
+            setIsSending(false);
         }
-    }
+    };
 
     return (
         <>
@@ -106,13 +121,13 @@ function ResumePopup(props) {
                                         </div>
                                     </div>
                                     <div>
-                                        <FaAt className={'at-icon' + (isValid ?  '' : ' invalid')} />
+                                        <FaAt className={'at-icon' + (isValid ? '' : ' invalid')} />
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div
-                            className={'resume-sent-container'  + (isEmailSent ? '' : ' hide-sent-message')} 
+                            className={'resume-sent-container' + (isEmailSent ? '' : ' hide-sent-message')}
                             onClick={close}>
                             <h3 className='resume-sent-title'>
                                 Thank you for your interest in my resume.
