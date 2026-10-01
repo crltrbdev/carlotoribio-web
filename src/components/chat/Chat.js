@@ -10,7 +10,7 @@ import SkillItem from '../skill-item/SkillItem';
 import './Chat.scss';
 import cookieManager from '../../util/CookieManager';
 
-const SCROLL_THRESHOLD = 100; // px scrolled before the scroll-to-top button appears
+const SCROLL_THRESHOLD = 100;
 
 function Chat(props) {
     const NO_TOKENS_PROMPT = process.env.REACT_APP_NO_TOKENS_PROMPT;
@@ -33,6 +33,7 @@ function Chat(props) {
     } = props;
 
     const [query, setQuery] = useState("");
+    const [deleteThis, setDeleteThis] = useState(""); // Added variable to trigger a rebuild
 
     const [showScrollToTop, setShowScrollToTop] = useState(false);
     const [chatHistory, setChatHistory] = useState([]);
@@ -227,6 +228,8 @@ function Chat(props) {
         setChatItems(old => [...old, depletedQuestionsChatItem]);
         setChatHistory(old => [...old, `[assistant] ${answer}`]);
         setIsWaitingForAnswer(false);
+
+        setDeleteThis("Delete this");
     }
 
     function handleScrollLeft() {
