@@ -139,18 +139,13 @@ function Chat(props) {
                     const decoder = new TextDecoder("utf-8");
                     let answer = '';
 
-                    const lambdaResponse = await OpenAIService
-                        .streamAnswer(
-                            query,
-                            chatHistory);
+                    const reader = await OpenAIService.streamAnswer(query, chatHistory);
 
-
-                    for await (const event of lambdaResponse.EventStream) {
-                        const text = decoder.decode(event.PayloadChunk?.Payload);
-                        if (chatItemData.setAnswer) {
-                            answer += text;
-                            chatItemData.setAnswer(answer);
-                        }
+                    while (true) {
+                        const { done, value } = await reader.read();
+                        if (done) break;
+                        answer += decoder.decode(value, { stream: true });
+                        chatItemData.setAnswer?.(answer);
                     }
 
                     setIsWaitingForAnswer(false);

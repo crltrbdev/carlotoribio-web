@@ -1,10 +1,7 @@
 import axios from 'axios';
 import { Lambda, InvokeWithResponseStreamCommand } from "@aws-sdk/client-lambda"
 
-const accessKeyId = process.env.REACT_APP_AWS_ACCESS_KEY;
-const secretAccessKey = process.env.REACT_APP_AWS_SECRET_KEY;
 const lambdaBaseUrl = process.env.REACT_APP_LAMBDA_API_BASE_URL;
-const lambdaRegion = process.env.REACT_APP_AWS_REGION;
 
 class OpenAIService {
 
@@ -15,42 +12,20 @@ class OpenAIService {
     }
 
     async streamAnswer(prompt, chat_history) {
-        const lambda = new Lambda({
-            region: lambdaRegion,
-            credentials: {
-                accessKeyId,
-                secretAccessKey
-            }
+        const res = await fetch(process.env.REACT_APP_STREAM_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ prompt, chat_history }),
         });
-
-        return lambda.send(new InvokeWithResponseStreamCommand(
-            {
-                FunctionName: 'streamAnswerDotIO',
-                Payload: JSON.stringify({
-                    prompt,
-                    chat_history
-                })
-            }
-        ));
+        return res.body.getReader();
     }
 
     async sendResumEmail(email) {
-        const lambda = new Lambda({
-            region: lambdaRegion,
-            credentials: {
-                accessKeyId,
-                secretAccessKey
-            }
+        return fetch(process.env.REACT_APP_EMAIL_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email }),
         });
-
-        return lambda.send(new InvokeWithResponseStreamCommand(
-            {
-                FunctionName: 'sendEmailDotIO',
-                Payload: JSON.stringify({
-                    email
-                })
-            }
-        ));
     }
 }
 
