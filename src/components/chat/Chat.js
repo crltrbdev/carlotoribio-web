@@ -80,7 +80,7 @@ function Chat(props) {
         setChatHistory(old => [...old, `[assistant] ${greeting}`]);
     }, [greeting]);
 
-    function  {
+    function scrollToTop() {
         scrollDivRef.current.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -116,8 +116,7 @@ function Chat(props) {
         }
 
         if (event.key === 'Enter' || event.type === 'click') {
-            scrollToTop();
-        
+            scrollToTop()
             setIsWaitingForAnswer(true);
 
             cookieManager.reduceChatTokens();
