@@ -3,7 +3,7 @@
   "seed": 12345,
   "compact": true,
   "controlFlowFlattening": false,
-  "deadCodeInjection": false,
+  "deadCodeInjection": true,
   "stringArray": true,
   "rotateStringArray": true,
   "stringArrayThreshold": 0.75,
