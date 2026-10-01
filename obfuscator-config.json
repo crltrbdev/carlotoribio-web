@@ -1,10 +1,14 @@
 {
-    "compact": true,
-    "controlFlowFlattening": true,
-    "controlFlowFlatteningThreshold": 0.75,
-    "deadCodeInjection": true,
-    "deadCodeInjectionThreshold": 0.4,
-    "stringArray": true,
-    "rotateStringArray": true,
-    "stringArrayThreshold": 0.75
-  }
+  "target": "browser",
+  "seed": 12345,
+  "compact": true,
+  "controlFlowFlattening": false,
+  "deadCodeInjection": true,
+  "stringArray": true,
+  "rotateStringArray": true,
+  "stringArrayThreshold": 0.75,
+  "renameProperties": false,
+  "transformObjectKeys": false,
+  "selfDefending": false,
+  "debugProtection": false
+}
