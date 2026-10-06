@@ -1,8 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import Popup from 'reactjs-popup';
 
 import openAIService from '../../services/OpenAIService';
-import { FaPaperPlane, FaAt, FaEnvelope } from "react-icons/fa";
+import { FaPaperPlane, FaAt, FaEnvelope, FaTimes } from "react-icons/fa";
 
 import './ResumePopup.scss';
 
@@ -23,6 +23,7 @@ function ResumePopup(props) {
     const sendingRef = useRef(false); // blocks double-clicks instantly (state updates are async)
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
+    const senderEmail = process.env.REACT_APP_CONTACT_EMAIL;
 
     useEffect(() => {
         if (inputRef.current) {
@@ -43,7 +44,7 @@ function ResumePopup(props) {
         }
     }
 
-    const handleOnClose = (e) => {
+    const handleOnClose = useCallback((e) => {
         setEmail('');
         setIsEmailSent(false);
         setIsValid(false);
@@ -51,7 +52,7 @@ function ResumePopup(props) {
         setError('');
         sendingRef.current = false;
         onClose(e);
-    };
+    }, [onClose]);
 
     useEffect(() => {
         if (!isOpen) return;
@@ -98,6 +99,12 @@ function ResumePopup(props) {
                 closeOnDocumentClick>
                 {close => (
                     <div className='resume-popup-wrapper' ref={wrapperRef}>
+                        <button
+                            className='resume-popup-close'
+                            onClick={close}
+                            aria-label='Close'>
+                            <FaTimes />
+                        </button>
                         <div className={'resume-popup-container' + (isEmailSent ? ' hide-form' : '')}>
                             <div className='resume-popup-title'>
                                 <h2>Download Resume</h2>
@@ -145,12 +152,13 @@ function ResumePopup(props) {
                             className={'resume-sent-container' + (isEmailSent ? '' : ' hide-sent-message')}
                             onClick={close}>
                             <h3 className='resume-sent-title'>
-                                Thank you for your interest in my resume.
+                                Thank you for your interest.
                             </h3>
                             <p className='resume-sent-content'>
-                                An email with a link to my resume has been sent to your email address.
-                                <br />
-                                <strong>Please make sure to check your spam folder!</strong>
+                                An email with a link to my resume has been sent to <strong>{email}</strong>.
+                            </p>
+                            <p className='resume-sent-spam'>
+                                If you don’t see it, check your spam folder for a message from <strong>{senderEmail}</strong>.
                             </p>
                             <p className='resume-sent-close'>
                                 (Click anywhere or press esc to close)

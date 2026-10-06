@@ -138,30 +138,72 @@
         }
     }
 
+    .resume-popup-close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 3;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        border: none;
+        border-radius: 50%;
+        background: transparent;
+        color: $text-mid;
+        font-size: 15px;
+        cursor: pointer;
+        transition: color .2s $ease, background .2s $ease;
+
+        &:hover {
+            color: $text-hi;
+            background: $surface-2;
+        }
+    }
+
     .resume-sent-container {
         position: absolute;
         display: flex;
         flex-direction: column;
+        align-items: center;
         justify-content: center;
+        gap: 14px;
         top: 0;
         left: 0;
         bottom: 0;
         right: 0;
+        padding: 24px 30px;
         text-align: center;
 
         &.hide-sent-message {
             display: none;
         }
 
+        p {
+            margin: 0;
+        }
+
         .resume-sent-title {
-            color: $text-mid;
+            margin: 0;
+            color: $text-hi;
             font-size: 1.2em;
         }
 
         .resume-sent-content {
             @extend .dotio-font-contrast;
 
-            b,
+            strong {
+                color: $accent;
+            }
+        }
+
+        .resume-sent-spam {
+            @extend .dotio-font-contrast;
+            font-size: .95em;
+            color: $text-mid;
+
             strong {
                 color: $color-success;
             }
@@ -169,7 +211,7 @@
 
         .resume-sent-close-mbl,
         .resume-sent-close {
-            color: $text-low;
+            color: $text-mid;
             font-size: .8em;
         }
 
@@ -225,22 +267,14 @@
         }
 
         .resume-sent-container {
-            
-            .resume-sent-title {
-                margin-top: 10px;
-            }
-    
-            .resume-sent-content {
-                margin-top: 0;
-                // margin-bottom: 30px;
-            }
+            gap: 10px;
+            padding: 18px 20px;
 
             .resume-sent-close {
                 display: none;
             }
     
             .resume-sent-close-mbl {
-                // margin-top: 0;
                 display: block;
             }
         }
