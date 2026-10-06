@@ -153,7 +153,6 @@ function Chat(props) {
 
                     setIsWaitingForAnswer(false);
                     chatItemData.setIsStreaming(false);
-                    console.log("Answer:", answer);
                     setChatHistory(old => [...old, `[assistant] ${answer}`]);
 
                     return answer;

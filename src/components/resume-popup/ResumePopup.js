@@ -13,6 +13,7 @@ function ResumePopup(props) {
     } = props;
 
     const inputRef = useRef(null);
+    const wrapperRef = useRef(null);
 
     const [isValid, setIsValid] = useState(false);
     const [email, setEmail] = useState('');
@@ -28,8 +29,6 @@ function ResumePopup(props) {
             inputRef.current.focus();
         }
     }, [])
-
-    
 
     const handleEmailSubmit = () => submitEmail();
 
@@ -54,6 +53,19 @@ function ResumePopup(props) {
         onClose(e);
     };
 
+    useEffect(() => {
+        if (!isOpen) return;
+
+        const handleClickOutside = (e) => {
+            if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
+                handleOnClose(e);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, [isOpen, handleOnClose]);
+
     const submitEmail = async () => {
         if (!isValid || sendingRef.current) return;
 
@@ -66,7 +78,6 @@ function ResumePopup(props) {
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
             setIsEmailSent(true);
         } catch (err) {
-            console.error(err);
             setError('Something went wrong. Please try again.');
         } finally {
             sendingRef.current = false;
@@ -86,7 +97,7 @@ function ResumePopup(props) {
                 closeOnEscape
                 closeOnDocumentClick>
                 {close => (
-                    <div className='resume-popup-wrapper'>
+                    <div className='resume-popup-wrapper' ref={wrapperRef}>
                         <div className={'resume-popup-container' + (isEmailSent ? ' hide-form' : '')}>
                             <div className='resume-popup-title'>
                                 <h2>Download Resume</h2>
@@ -111,12 +122,13 @@ function ResumePopup(props) {
                                                 type='email'
                                                 placeholder='Email'
                                                 value={email}
+                                                disabled={isSending}
                                                 onChange={handleEmailChange}
                                                 onKeyDown={handleOnKeyDown} />
                                         </div>
                                         <div className='send-icon-wrapper'>
                                             <FaPaperPlane
-                                                className={'send-icon' + (isValid ? '' : ' invalid')}
+                                                className={'send-icon' + (isValid && !isSending ? '' : ' invalid')}
                                                 onClick={() => handleEmailSubmit(close)} />
                                         </div>
                                     </div>
@@ -125,6 +137,9 @@ function ResumePopup(props) {
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div className='email-error'>
+                            {error && <p>{error}</p>}
                         </div>
                         <div
                             className={'resume-sent-container' + (isEmailSent ? '' : ' hide-sent-message')}
@@ -144,6 +159,12 @@ function ResumePopup(props) {
                                 (Tap anywhere to close)
                             </p>
                         </div>
+                        {isSending && (
+                            <div className='resume-popup-loader'>
+                                <div className='loader-spinner' />
+                                <p className='loader-text'>Sending...</p>
+                            </div>
+                        )}
                     </div>
                 )}
             </Popup>
