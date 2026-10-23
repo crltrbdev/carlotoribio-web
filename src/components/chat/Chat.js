@@ -9,8 +9,11 @@ import SkillItem from '../skill-item/SkillItem';
 
 import './Chat.scss';
 import cookieManager from '../../util/CookieManager';
+import { typeWords } from '../../util/typeWords';
+import { readStream } from '../../util/readStream';
 
 const SCROLL_THRESHOLD = 100;
+const STREAM_ERROR_MESSAGE = "Sorry, I couldn't reach the AI service just now. Please try again in a moment, or [request Carlo's resume](resume) instead.";
 
 function Chat(props) {
     const NO_TOKENS_PROMPT = process.env.REACT_APP_NO_TOKENS_PROMPT;
@@ -18,10 +21,11 @@ function Chat(props) {
     const RESUME_LINK = process.env.REACT_APP_RESUME_LINK;
 
     const PROMPT_SUGGESTIONS = [
-        "What are Carlo's Career highlights?",
-        "What has Carlo built with RAG and LLMs?",
-        "What's Carlo's cloud and AWS experience?",
-        "How was this website built?",
+        "What AI systems has Carlo architected?",
+        "How did Carlo's multi-agent HR assistant work?",
+        "How did Carlo validate 7 years of transactions at 99.8% accuracy?",
+        "How is this chatbot architected?",
+        "How did Carlo cut deploys from 25 minutes to 2-3?",
         "What's Carlo's experience leading engineering teams?",
         "Should I hire Carlo?",
         "How can I contact Carlo?"
@@ -57,19 +61,7 @@ function Chat(props) {
                 chatItemData.setIsStreaming(true);
                 setIsWaitingForAnswer(true);
 
-                const words = greeting.split(' ');
-                let currentAnswer = '';
-
-                words.forEach((word, index) => {
-                    setTimeout(() => {
-                        currentAnswer += (currentAnswer ? ' ' : '') + word;
-                        chatItemData.setAnswer(currentAnswer);
-
-                        if (index === words.length - 1) {
-                            onStreamComplete(currentAnswer);
-                        }
-                    }, index * 50);
-                });
+                typeWords(greeting, chatItemData.setAnswer, { delay: 50, onDone: onStreamComplete });
 
                 function onStreamComplete(finalAnswer) {
                     chatItemData.setIsStreaming(false);
@@ -139,17 +131,8 @@ function Chat(props) {
                 try {
                     chatItemData.setIsStreaming(true);
 
-                    const decoder = new TextDecoder("utf-8");
-                    let answer = '';
-
                     const reader = await OpenAIService.streamAnswer(query, chatHistory);
-
-                    while (true) {
-                        const { done, value } = await reader.read();
-                        if (done) break;
-                        answer += decoder.decode(value, { stream: true });
-                        chatItemData.setAnswer?.(answer);
-                    }
+                    const answer = await readStream(reader, text => chatItemData.setAnswer?.(text));
 
                     setIsWaitingForAnswer(false);
                     chatItemData.setIsStreaming(false);
@@ -159,6 +142,7 @@ function Chat(props) {
                 }
                 catch (error) {
                     console.error(error);
+                    chatItemData.setAnswer?.(STREAM_ERROR_MESSAGE);
                 }
                 finally {
                     setIsWaitingForAnswer(false);
@@ -200,19 +184,7 @@ function Chat(props) {
             chatItemData.setIsStreaming(true);
             setIsWaitingForAnswer(true);
 
-            const words = answer.split(' ');
-            let currentAnswer = '';
-
-            words.forEach((word, index) => {
-                setTimeout(() => {
-                    currentAnswer += (currentAnswer ? ' ' : '') + word;
-                    chatItemData.setAnswer(currentAnswer);
-
-                    if (index === words.length - 1) {
-                        onStreamComplete();
-                    }
-                }, index * 100);
-            });
+            typeWords(answer, chatItemData.setAnswer, { delay: 100, onDone: onStreamComplete });
 
             function onStreamComplete() {
                 chatItemData.setIsStreaming(false);

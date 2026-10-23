@@ -1,4 +1,5 @@
 @import "src/assets/styles/variables.scss";
+@import "src/assets/styles/cursor.scss";
 
 $mobile-font-size: .9em;
 $wrapper-padding: 16px 18px;
@@ -103,22 +104,7 @@ $wrapper-padding: 16px 18px;
     }
 
     .is-streaming {
-        @keyframes cursor-blink {
-            0% {
-                opacity: 0;
-            }
-        }
-
-        &::after {
-            content: "";
-            width: 7px;
-            height: 17px;
-            background: $accent;
-            border-radius: 2px;
-            display: inline-block;
-            vertical-align: text-bottom;
-            animation: cursor-blink .65s steps(2) infinite;
-        }
+        @include typing-cursor(7px, 17px);
     }
 
     &.row {
@@ -151,14 +137,7 @@ $wrapper-padding: 16px 18px;
         }
 
         .is-streaming {
-            &::after {
-                content: "";
-                width: 5px;
-                height: 15px;
-                background: $accent;
-                display: inline-block;
-                animation: cursor-blink .65s steps(2) infinite;
-            }
+            @include typing-cursor(5px, 15px);
         }
     }
 }

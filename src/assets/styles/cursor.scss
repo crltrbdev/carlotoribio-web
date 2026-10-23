@@ -1,0 +1,21 @@
+@import "src/assets/styles/variables.scss";
+
+@keyframes cursor-blink {
+    0% {
+        opacity: 0;
+    }
+}
+
+// Blinking block cursor shown while text is being typed or streamed
+@mixin typing-cursor($width, $height) {
+    &::after {
+        content: "";
+        width: $width;
+        height: $height;
+        background: $accent;
+        border-radius: 2px;
+        display: inline-block;
+        vertical-align: text-bottom;
+        animation: cursor-blink .65s steps(2) infinite;
+    }
+}

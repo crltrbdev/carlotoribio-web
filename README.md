@@ -1,47 +1,64 @@
-# Getting Started with Create React App
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# carlotorib.io
 
-## Available Scripts
-In the project directory, you can run:
+Portfolio site for Carlo Toribio, AI Architect. The centerpiece is an AI chatbot that answers questions about Carlo's experience, streamed token by token from a serverless backend.
 
-### `npm start HOST=0.0.0.0`
-Runs the app in the development mode and hosts app to the IP of this computer + port 3000.
+Live: https://carlotorib.io
 
-### `npm start`
+## Architecture
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```mermaid
+flowchart LR
+    B["Browser<br/>React SPA on AWS Amplify"] -- "POST {prompt, chat_history}" --> F["Lambda Function URL<br/>CORS: 3 allowed origins"]
+    F --> L["streamAnswerDotIO<br/>Node.js, streamifyResponse"]
+    L -- "system prompt + history<br/>stream: true, max_tokens: 500" --> O["OpenAI Chat Completions<br/>gpt-4o-mini"]
+    O -- "Server-Sent Events" --> L
+    L -- "chunked text/plain markdown" --> B
+    B -- "POST {email}" --> E["sendEmailDotIO<br/>Lambda Function URL"]
+    E --> S["Amazon SES<br/>resume email"]
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+**Request path**
+1. The browser posts the question and the conversation so far. `chat_history` is a list of strings prefixed `[user] ` or `[assistant] `.
+2. The Lambda adds the system prompt, which lives only on the server, and calls OpenAI with streaming on.
+3. The Lambda parses OpenAI's Server-Sent Events and writes only the text deltas back to the response stream.
+4. The browser reads the stream with `ReadableStream.getReader()` and a `TextDecoder`, and renders the markdown as it arrives.
 
-### `npm test`
+## Design decisions
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+| Decision | Why | Tradeoff |
+|---|---|---|
+| Lambda Function URLs instead of API Gateway | Native response streaming, no extra service, near-zero idle cost | No built-in throttling or API keys, so the Lambda must protect itself |
+| Stream the answer instead of buffering it | Words appear as soon as the model produces them instead of after the full completion | The client has to handle partial chunks and mid-stream failures |
+| Plain `fetch` from the browser, no AWS SDK | No credentials in the client bundle; smaller bundle | The endpoints are public by design |
+| System prompt only on the server | The client can't read or replace it | Changing the bot's knowledge means redeploying the Lambda |
+| Raw markdown over the wire instead of JSON | Each chunk can be appended and rendered directly | No metadata channel (sources, token counts) in the response yet |
 
-### `npm run build`
+## Cost and abuse controls
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+In place today:
+- `max_tokens: 500` per answer on a small, low-cost model
+- CORS restricted to the production, dev and local origins
+- A 5-question limit per visitor, enforced in the browser
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Planned (the browser limit is bypassable with curl, so the Lambda needs its own):
+- Prompt and history length caps, and accepting only `user` and `assistant` roles from the client
+- Per-IP rate limiting
+- A Turnstile check verified server-side before any OpenAI or SES call
+- OpenAI spend limits and an AWS budget alert
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Running locally
 
-### `npm run eject`
+```sh
+npm ci
+cp .env.example .env.local   # fill in the Function URLs and copy
+npm start                    # http://localhost:3000
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+`npm run build` creates the production build in `build/`. Amplify then runs `javascript-obfuscator` on it (see `amplify.yml`). Every `REACT_APP_*` value is baked into the public bundle, so never put secrets in them.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Repository map
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- `src/components/chat/` holds the chat input, suggestions and the stream reader
+- `src/components/chat-item/` renders questions and streamed markdown answers
+- `src/services/OpenAIService.js` calls the two Function URLs
+- `lambdas/StreamAnswerDotIO.js` is the streaming Lambda (its system prompt is kept out of the repo)

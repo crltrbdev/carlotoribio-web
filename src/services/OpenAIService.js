@@ -17,6 +17,9 @@ class OpenAIService {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ prompt, chat_history }),
         });
+        if (!res.ok) {
+            throw new Error(`Stream request failed with status ${res.status}`);
+        }
         return res.body.getReader();
     }
 
