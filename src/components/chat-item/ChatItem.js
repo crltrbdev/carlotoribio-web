@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import parse from 'html-react-parser'
 import ReactMarkdown from 'react-markdown';
 
 import { CfUserChatImg, CfAIChatBotImg } from '../../icons/CfIcons';
@@ -33,7 +32,7 @@ function QueryChatItem(props) {
         <div className={`query-item-wrapper ${direction}`}>
             <CfUserChatImg className='answer-icon' />
             <span className={'chat-text'}>
-                {parse(chatItemData.prompt)}
+                {chatItemData.prompt}
             </span>
         </div>
     </>

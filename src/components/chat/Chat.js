@@ -18,7 +18,6 @@ const STREAM_ERROR_MESSAGE = "Sorry, I couldn't reach the AI service just now. P
 function Chat(props) {
     const NO_TOKENS_PROMPT = process.env.REACT_APP_NO_TOKENS_PROMPT;
     const GREETING_PROMPT = process.env.REACT_APP_GREETING_PROMPT;
-    const RESUME_LINK = process.env.REACT_APP_RESUME_LINK;
 
     const PROMPT_SUGGESTIONS = [
         "What AI systems has Carlo architected?",
@@ -36,7 +35,6 @@ function Chat(props) {
     } = props;
 
     const [query, setQuery] = useState("");
-    const [deleteThis, setDeleteThis] = useState(""); // Added variable to trigger a rebuild
 
     const [showScrollToTop, setShowScrollToTop] = useState(false);
     const [chatHistory, setChatHistory] = useState([]);
@@ -203,8 +201,6 @@ function Chat(props) {
         setChatItems(old => [...old, depletedQuestionsChatItem]);
         setChatHistory(old => [...old, `[assistant] ${answer}`]);
         setIsWaitingForAnswer(false);
-
-        setDeleteThis("Delete this");
     }
 
     function handleScrollLeft() {
@@ -240,13 +236,6 @@ function Chat(props) {
                     }
                 </div>
             </div>
-
-            {/* [CT DEBUG TOKENS] */}
-            {/* <p>
-                <span style={{ marginRight: 30, color: 'red' }}>Remaining Questions: {cookieManager.getChatTokensLeftCount()}</span>
-                <span style={{ marginRight: 30, color: 'red' }}>Reset time: {cookieManager.getTokenResetTime()}</span>
-                <span style={{ marginRight: 30, color: 'red' }}>Time to Reset: {cookieManager.getCountdownToTokenReset()}</span>
-            </p> */}
 
             <div className="technical-skills-wrapper">
                 <div className="skills-container">

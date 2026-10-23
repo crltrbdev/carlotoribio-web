@@ -1,8 +1,16 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
+// react-markdown ships as ESM only, which CRA's Jest setup can't load
+jest.mock('react-markdown', () => ({ children }) => children);
+
+beforeAll(() => {
+  process.env.REACT_APP_GREETING_PROMPT = 'Hello!';
+  process.env.REACT_APP_NO_TOKENS_PROMPT = 'Out of questions.';
+});
+
+test('renders the hero heading and the chat input', () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  expect(screen.getByRole('heading', { level: 1, name: /Hi, I'm Carlo\./ })).toBeInTheDocument();
+  expect(screen.getByPlaceholderText('Type your question')).toBeInTheDocument();
 });

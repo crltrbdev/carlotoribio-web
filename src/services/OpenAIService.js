@@ -1,15 +1,4 @@
-import axios from 'axios';
-import { Lambda, InvokeWithResponseStreamCommand } from "@aws-sdk/client-lambda"
-
-const lambdaBaseUrl = process.env.REACT_APP_LAMBDA_API_BASE_URL;
-
 class OpenAIService {
-
-    constructor() {
-        this.client = axios.create({
-            baseUrl: lambdaBaseUrl
-        });
-    }
 
     async streamAnswer(prompt, chat_history) {
         const res = await fetch(process.env.REACT_APP_STREAM_URL, {
