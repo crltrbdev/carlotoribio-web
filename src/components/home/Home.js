@@ -7,6 +7,7 @@ import Chat from '../chat/Chat';
 import './Home.scss';
 
 import facePicture from '../../assets/pics/carlo-headshot.jpg';
+import logoImg from '../../assets/images/logos/logo.png';
 import { typeWords } from '../../util/typeWords';
 
 const HERO_GREETING = "Hi, I'm Carlo.";
@@ -60,8 +61,11 @@ function Home(props) {
             <section className={`home-wrapper ${props.className}`}>
                 <nav className="top-nav">
                     <div className="identity">
-                        <img className="avatar" src={facePicture} alt="Carlo Toribio" />
-                        <span className="name">Carlo Toribio</span>
+                        <img className="logo" src={logoImg} alt="" />
+                        <div className="name-block">
+                            <span className="name">Carlo Toribio</span>
+                            <span className="role">Sr AI Engineer · AI Architect</span>
+                        </div>
                     </div>
 
                     <div className="social">
@@ -82,6 +86,7 @@ function Home(props) {
                 </nav>
                 <section className='main-container'>
                     <div className="hero">
+                        <img className="hero-photo" src={facePicture} alt="Carlo Toribio" />
                         <span className="status">
                             <span className="dot"></span>
                             Open to Sr AI Engineer & AI Architect roles<span className="mobile-hide"> · San Diego, CA</span>
