@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
-import { FaArrowUp, FaBan, FaCaretLeft, FaCaretRight, FaPaperPlane } from "react-icons/fa";
+import { FaArrowDown, FaCaretLeft, FaCaretRight, FaPaperPlane } from "react-icons/fa";
 import { v4 as uuidv4 } from 'uuid';
 
 import OpenAIService from '../../services/OpenAIService';
@@ -13,9 +13,32 @@ import { typeWords } from '../../util/typeWords';
 import { readStream } from '../../util/readStream';
 
 const SCROLL_THRESHOLD = 100;
-const STREAM_ERROR_MESSAGE = "Sorry, I couldn't reach the AI service just now. Please try again in a moment, or [request Carlo's resume](resume) instead.";
+const QUESTION_TOP_GAP = 16;
+const STREAM_ERROR_MESSAGE = "Sorry, I couldn't reach the AI service just now. Please try again in a moment, or [open Carlo's resume](resume) instead.";
+const SKILLS = ['OpenAI', 'Python', 'Databricks', 'Spark', 'AWS', 'React'];
 
-function Chat(props) {
+// Like Claude: a new question moves to the top of the panel and its answer streams in below it.
+// A spacer under the last answer leaves enough room for the question to reach the top.
+function findQuery(messages, chatId) {
+    return chatId ? messages.querySelector(`[data-chat-id="${chatId}"]`) : null;
+}
+
+function getTopWithinPanel(messages, element) {
+    return element.getBoundingClientRect().top - messages.getBoundingClientRect().top + messages.scrollTop;
+}
+
+function updateSpacer(messages, spacer, latestQueryId) {
+    const latestQuery = findQuery(messages, latestQueryId);
+    if (!latestQuery) {
+        spacer.style.height = '0px';
+        return;
+    }
+    const heightWithoutSpacer = messages.scrollHeight - spacer.offsetHeight;
+    const contentFromQuery = heightWithoutSpacer - getTopWithinPanel(messages, latestQuery);
+    spacer.style.height = `${Math.max(0, messages.clientHeight - contentFromQuery - QUESTION_TOP_GAP)}px`;
+}
+
+function Chat() {
     const NO_TOKENS_PROMPT = process.env.REACT_APP_NO_TOKENS_PROMPT;
     const GREETING_PROMPT = process.env.REACT_APP_GREETING_PROMPT;
 
@@ -30,13 +53,13 @@ function Chat(props) {
         "How can I contact Carlo?"
     ];
 
-    const {
-        openResumePopup
-    } = props;
-
     const [query, setQuery] = useState("");
+    const [questionsLeft, setQuestionsLeft] = useState(() => cookieManager.getChatTokens());
 
-    const [showScrollToTop, setShowScrollToTop] = useState(false);
+    const [showJumpToLatest, setShowJumpToLatest] = useState(false);
+    // The newest question; it's scrolled to the top of the panel when it's sent
+    const latestQueryIdRef = useRef(null);
+    const shouldScrollToQueryRef = useRef(false);
     const [chatHistory, setChatHistory] = useState([]);
 
     const [chatItems, setChatItems] = useState([]);
@@ -44,6 +67,7 @@ function Chat(props) {
 
     const inputRef = useRef(null);
     const scrollDivRef = useRef(null);
+    const spacerRef = useRef(null);
     const ulScrollRef = useRef(null);
 
     const greeting = useMemo(
@@ -72,8 +96,32 @@ function Chat(props) {
         setChatItems([greetingChatItem]);
     }, [greeting]);
 
-    function scrollToTop() {
-        scrollDivRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+    // The spacer shrinks as the answer grows, so the view stays put while it streams
+    useEffect(() => {
+        const observer = new MutationObserver(() =>
+            updateSpacer(scrollDivRef.current, spacerRef.current, latestQueryIdRef.current));
+        observer.observe(scrollDivRef.current, { childList: true, subtree: true, characterData: true });
+        return () => observer.disconnect();
+    }, []);
+
+    useEffect(() => {
+        const messages = scrollDivRef.current;
+        const latestQuery = findQuery(messages, latestQueryIdRef.current);
+        if (!shouldScrollToQueryRef.current || !latestQuery) {
+            return;
+        }
+        shouldScrollToQueryRef.current = false;
+        updateSpacer(messages, spacerRef.current, latestQueryIdRef.current);
+        messages.scrollTo({ top: getTopWithinPanel(messages, latestQuery) - QUESTION_TOP_GAP, behavior: 'smooth' });
+    }, [chatItems]);
+
+    function showNewQuestion(chatId) {
+        latestQueryIdRef.current = chatId;
+        shouldScrollToQueryRef.current = true;
+    }
+
+    function scrollToLatest() {
+        scrollDivRef.current.scrollTo({ top: scrollDivRef.current.scrollHeight, behavior: 'smooth' });
     }
 
     function handleSkillClick(event) {
@@ -108,10 +156,9 @@ function Chat(props) {
         }
 
         if (event.key === 'Enter' || event.type === 'click') {
-            scrollToTop()
             setIsWaitingForAnswer(true);
 
-            cookieManager.reduceChatTokens();
+            setQuestionsLeft(cookieManager.reduceChatTokens());
 
             const queryChatItem = {
                 chatId: uuidv4(),
@@ -119,6 +166,7 @@ function Chat(props) {
                 prompt: query
             };
 
+            showNewQuestion(queryChatItem.chatId);
             setChatItems(old => [...old, queryChatItem]);
 
             setQuery('');
@@ -170,6 +218,7 @@ function Chat(props) {
         setChatHistory(old => [...old, `[user] ${query}`]);
 
         setQuery('');
+        showNewQuestion(queryChatItem.chatId);
         setChatItems(old => [...old, queryChatItem]);
 
         const countdown = cookieManager.getCountdownToTokenReset(true, true);
@@ -212,7 +261,9 @@ function Chat(props) {
     }
 
     function handleScroll() {
-        setShowScrollToTop(scrollDivRef.current.scrollTop > SCROLL_THRESHOLD);
+        const messages = scrollDivRef.current;
+        const distanceFromBottom = messages.scrollHeight - messages.scrollTop - messages.clientHeight;
+        setShowJumpToLatest(distanceFromBottom > SCROLL_THRESHOLD);
     }
 
     return <>
@@ -223,40 +274,31 @@ function Chat(props) {
                         ref={inputRef}
                         type="text"
                         placeholder="Type your question"
+                        aria-label="Ask a question about Carlo"
                         value={query}
                         onChange={handleChange}
                         onKeyDown={handleGetCompletion} />
                 </div>
-                <div className={isWaitingForAnswer ? 'send-icon-wrapper disabled' : 'send-icon-wrapper'}
+                <span className="questions-left"
+                    aria-label={`${questionsLeft} of ${cookieManager.maxTokens} questions left`}>
+                    {questionsLeft}/{cookieManager.maxTokens} left
+                </span>
+                <button className={isWaitingForAnswer ? 'send-icon-wrapper disabled' : 'send-icon-wrapper'}
+                    aria-label={isWaitingForAnswer ? 'Waiting for the answer' : 'Send question'}
                     onClick={handleGetCompletion}>
                     {
                         !isWaitingForAnswer ?
                             <FaPaperPlane className='send-icon' /> :
-                            <FaBan className='send-icon' />
+                            <span className='spinner' />
                     }
-                </div>
+                </button>
             </div>
 
             <div className="technical-skills-wrapper">
                 <div className="skills-container">
-                    <SkillItem
-                        title="OpenAI"
-                        onClick={handleSkillClick} />
-                    <SkillItem
-                        title="React"
-                        onClick={handleSkillClick} />
-                    <SkillItem
-                        title="Angular"
-                        onClick={handleSkillClick} />
-                    <SkillItem
-                        title="DotNet"
-                        onClick={handleSkillClick} />
-                    <SkillItem
-                        title="Java"
-                        onClick={handleSkillClick} />
-                    <SkillItem
-                        title="AWS"
-                        onClick={handleSkillClick} />
+                    {SKILLS.map(skill => (
+                        <SkillItem key={skill} title={skill} onClick={handleSkillClick} />
+                    ))}
                 </div>
             </div>
 
@@ -275,9 +317,10 @@ function Chat(props) {
             </div>
 
             <div className="chat-panel-wrapper">
-                <button className={showScrollToTop ? "scroll-to-top visible" : "scroll-to-top"}
-                    onClick={scrollToTop}>
-                    <FaArrowUp />
+                <button className={showJumpToLatest ? "jump-to-latest visible" : "jump-to-latest"}
+                    aria-label="Jump to the latest message"
+                    onClick={scrollToLatest}>
+                    <FaArrowDown />
                 </button>
                 <div className="chat-panel">
                     <React.Fragment>
@@ -286,13 +329,13 @@ function Chat(props) {
                             ref={scrollDivRef}
                             onScroll={handleScroll}>
                             {
-                                chatItems.slice().reverse().map(item => {
+                                chatItems.map(item => {
                                     return <ChatItem
-                                        openResumePopup={openResumePopup}
                                         key={item.chatId}
                                         chatItemData={item} />
                                 })
                             }
+                            <div className="chat-spacer" ref={spacerRef} aria-hidden="true" />
                         </div>
                     </React.Fragment>
                 </div>

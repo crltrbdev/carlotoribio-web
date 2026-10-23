@@ -3,7 +3,6 @@ import { FaAt, FaGithub } from 'react-icons/fa';
 import { FaFileLines, FaLinkedin } from 'react-icons/fa6';
 
 import Chat from '../chat/Chat';
-import ResumePopup from '../resume-popup/ResumePopup';
 
 import './Home.scss';
 
@@ -23,9 +22,8 @@ const HERO_TAGLINES = [
 ];
 
 function Home(props) {
-    const [isResumePopupOpen, setIsResumePopupOpen] = useState(false);
-
     const EMAIL = process.env.REACT_APP_CONTACT_EMAIL;
+    const RESUME_LINK = process.env.REACT_APP_RESUME_LINK;
     const LINKEDIN_LINK = process.env.REACT_APP_LINKEDIN_LINK;
     const GITHUB_LINK = process.env.REACT_APP_GITHUB_LINK;
 
@@ -57,21 +55,9 @@ function Home(props) {
 
     const cursor = <span className={isTyping ? 'typing-cursor' : ''}></span>;
 
-    const openPopup = () => {
-        setIsResumePopupOpen(true);
-    }
-
-    const closePopup = () => {
-        setIsResumePopupOpen(false);
-    }
-
     return (
         <>
             <section className={`home-wrapper ${props.className}`}>
-                <ResumePopup
-                    isOpen={isResumePopupOpen}
-                    onClose={closePopup}>
-                </ResumePopup>
                 <nav className="top-nav">
                     <div className="identity">
                         <img className="avatar" src={facePicture} alt="Carlo Toribio" />
@@ -88,17 +74,17 @@ function Home(props) {
                         <a href={`mailto:${EMAIL}`} rel='noopener noreferrer' aria-label="Email">
                             <FaAt className="icon" />
                         </a>
-                        <button className="resume-button" onClick={openPopup}>
+                        <a className="resume-button" href={RESUME_LINK} target="_blank" rel='noopener noreferrer'>
                             <FaFileLines className="resume-icon" />
                             <span>Resume</span>
-                        </button>
+                        </a>
                     </div>
                 </nav>
                 <section className='main-container'>
                     <div className="hero">
                         <span className="status">
                             <span className="dot"></span>
-                            Open to Sr AI Engineer & AI Architect roles<span className="mobile-hide"> · Claude Certified Architect</span>
+                            Open to Sr AI Engineer & AI Architect roles<span className="mobile-hide"> · San Diego, CA</span>
                         </span>
                         <h1 aria-label={`${HERO_GREETING} ${tagline}`}>
                             {/* Invisible full text reserves the final size so nothing shifts while typing */}
@@ -116,7 +102,7 @@ function Home(props) {
                         </p>
                     </div>
                     <div className="chat-container">
-                        <Chat openResumePopup={openPopup} />
+                        <Chat />
                     </div>
                 </section>
             </section>

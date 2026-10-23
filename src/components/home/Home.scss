@@ -173,6 +173,9 @@ $page-gutter: max(28px, calc((100% - 1180px) / 2));
                     background-clip: text;
                     color: transparent;
                     -webkit-text-fill-color: transparent;
+                    // extra room below so the gradient reaches descenders (g, y, p); the margin cancels the added height
+                    padding-bottom: .12em;
+                    margin-bottom: -.12em;
                 }
             }
 

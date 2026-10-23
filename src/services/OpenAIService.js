@@ -11,14 +11,6 @@ class OpenAIService {
         }
         return res.body.getReader();
     }
-
-    async sendResumEmail(email) {
-        return fetch(process.env.REACT_APP_EMAIL_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email }),
-        });
-    }
 }
 
 const openAIService = new OpenAIService();
