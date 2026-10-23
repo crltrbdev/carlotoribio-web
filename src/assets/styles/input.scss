@@ -44,8 +44,20 @@
         }
     }
 
+    .questions-left {
+        flex-shrink: 0;
+        margin-right: 10px;
+        font-family: $font-mono;
+        font-size: .75em;
+        color: $text-low;
+        white-space: nowrap;
+    }
+
     .send-icon-wrapper {
+        flex-shrink: 0;
         margin: 0 8px 0 0;
+        padding: 0;
+        border: none;
         height: 38px;
         width: 38px;
         border-radius: 50%;
@@ -80,5 +92,21 @@
         width: 17px;
         fill: $bg-deep;
         color: $bg-deep;
+    }
+
+    // shown in the send button while an answer is streaming
+    .spinner {
+        height: 16px;
+        width: 16px;
+        border: 2px solid rgba(43, 188, 237, .25);
+        border-top-color: $accent;
+        border-radius: 50%;
+        animation: spin .8s linear infinite;
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
     }
 }

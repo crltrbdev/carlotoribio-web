@@ -1,63 +1,36 @@
 import React from 'react';
+import { FaAws } from 'react-icons/fa';
+import { SiApachespark, SiDatabricks, SiOpenai, SiPython, SiReact } from 'react-icons/si';
 
 import './SkillItem.scss';
 
-import androidImg from '../../assets/images/skills/android.png';
-import angularImg from '../../assets/images/skills/angular.png';
-import awsImg from '../../assets/images/skills/aws.png';
-import azureImg from '../../assets/images/skills/azure.png';
-import chatgptImg from '../../assets/images/skills/chatgpt.png';
-import dotnetImg from '../../assets/images/skills/dotnet.png';
-import iosImg from '../../assets/images/skills/ios.png';
-import javaImg from '../../assets/images/skills/java.png';
-import reactImg from '../../assets/images/skills/react.png';
-
-function SkillItem(props) {
-    const getImage = () => {
-        switch (props.title) {
-            case 'Android':
-                return androidImg;
-            case 'Angular':
-                return angularImg;
-            case 'AWS':
-                return awsImg;
-            case 'Azure':
-                return azureImg;
-            case 'OpenAI':
-                return chatgptImg;
-            case 'DotNet':
-                return dotnetImg;
-            case 'iOS':
-                return iosImg;
-            case 'Java':
-                return javaImg;
-            case 'React':
-                return reactImg;
-            default:
-                throw new Error(`Unrecognized skill ${props.title}`);
-        }
-    }
-
-    const DISPLAY_NAMES = {
-    DotNet: '.NET',
-    OpenAI: 'OpenAI and LLMs'
+// Icon, brand color and the name used in the prefilled question
+const SKILLS = {
+    OpenAI: { Icon: SiOpenai, color: '#FFFFFF', name: 'OpenAI and LLMs' },
+    Python: { Icon: SiPython, color: '#4B8BBE', name: 'Python' },
+    Databricks: { Icon: SiDatabricks, color: '#FF3621', name: 'Databricks' },
+    Spark: { Icon: SiApachespark, color: '#E25A1C', name: 'Apache Spark' },
+    AWS: { Icon: FaAws, color: '#FF9900', name: 'AWS' },
+    React: { Icon: SiReact, color: '#61DAFB', name: 'React' }
 };
 
+function SkillItem(props) {
+    const skill = SKILLS[props.title];
+    if (!skill) {
+        throw new Error(`Unrecognized skill ${props.title}`);
+    }
+    const { Icon, color, name } = skill;
+
     const clickHandler = () => {
-        if (props.onClick) {
-            const skill = DISPLAY_NAMES[props.title] || props.title;
-            props.onClick(
-                `What has Carlo built with ${skill}, and how deep is his experience?`
-            );
-        }
+        props.onClick?.(`What has Carlo built with ${name}, and how deep is his experience?`);
     }
 
     return <>
-        <section className="skill-item-wrapper" onClick={clickHandler}>
-            <div className={'skill-icon ' + props.title.toLowerCase()} >
-                <img src={getImage()} alt="skill" />
-            </div>
-        </section>
+        <button className="skill-item-wrapper" onClick={clickHandler}
+            aria-label={`Ask about Carlo's ${name} experience`} title={name}>
+            <Icon className="skill-icon" style={{ color }} aria-hidden="true" />
+            <span className="skill-label">{props.title}</span>
+        </button>
     </>
 }
 
