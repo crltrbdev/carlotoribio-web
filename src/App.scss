@@ -40,6 +40,11 @@
         flex-grow: 0;
     }
 
+    // the links page is short content that should scroll on small phones
+    &.links-page {
+        overflow-y: auto;
+    }
+
     @media only screen and (max-width: 768px) {
         .mobile-hide {
             display: none;
