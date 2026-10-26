@@ -1,0 +1,211 @@
+@import "src/assets/styles/variables.scss";
+
+.links-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+    // extra bottom room, plus the iPhone home indicator area
+    padding: 56px 16px calc(40px + env(safe-area-inset-bottom));
+    animation: rise-in .5s $ease both;
+
+    .profile {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+
+        .avatar {
+            height: 104px;
+            width: 104px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 0 0 3px $bg-base, 0 0 0 4px rgba(43, 188, 237, .6), 0 10px 40px rgba(43, 188, 237, .25);
+        }
+
+        h1 {
+            margin-top: 18px;
+            font-size: 1.7em;
+            font-weight: 700;
+            letter-spacing: -.02em;
+        }
+
+        .title {
+            margin: 6px 0 0;
+            color: $text-mid;
+            font-size: .95em;
+        }
+
+        .location {
+            margin: 4px 0 0;
+            color: $text-low;
+            font-size: .82em;
+        }
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 14px;
+            padding: 5px 12px;
+            border: 1px solid $stroke;
+            border-radius: $radius-pill;
+            background: $surface-1;
+            color: $text-mid;
+            font-family: $font-mono;
+            font-size: .7em;
+
+            .dot {
+                height: 7px;
+                width: 7px;
+                border-radius: 50%;
+                background: $color-success;
+                box-shadow: 0 0 10px rgba(61, 220, 151, .7);
+            }
+        }
+    }
+
+    // outline icons stroke with currentColor; keep the global * color rule from overriding their paths
+    .link-icon *,
+    .arrow *,
+    .copy-icon * {
+        color: inherit;
+    }
+
+    .link-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+        margin: 32px 0 0;
+        padding: 0;
+        list-style: none;
+
+        li {
+            display: flex;
+            gap: 10px;
+        }
+    }
+
+    .link-button {
+        display: flex;
+        flex-grow: 1;
+        min-width: 0;
+        align-items: center;
+        gap: 14px;
+        padding: 14px 18px;
+        border: 1px solid $stroke;
+        border-radius: $radius-md;
+        background: $surface-1;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        transition: all .2s $ease;
+
+        .link-icon {
+            flex-shrink: 0;
+            height: 20px;
+            width: 20px;
+            color: $accent;
+        }
+
+        .link-text {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            min-width: 0;
+
+            .label {
+                font-weight: 600;
+                font-size: .98em;
+            }
+
+            .detail {
+                overflow: hidden;
+                color: $text-low;
+                font-family: $font-mono;
+                font-size: .72em;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+
+        .arrow {
+            flex-shrink: 0;
+            height: 14px;
+            width: 14px;
+            color: $text-low;
+            transition: transform .2s $ease;
+        }
+
+        &:hover {
+            border-color: rgba(43, 188, 237, .5);
+            background: $surface-2;
+            box-shadow: $shadow-glow;
+
+            .arrow {
+                color: $accent;
+                transform: translateX(3px);
+            }
+        }
+
+        &.featured {
+            border-color: rgba(43, 188, 237, .4);
+            background: $accent-soft;
+        }
+    }
+
+    .copy-button {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        gap: 4px;
+        width: 72px;
+        border: 1px solid $stroke;
+        border-radius: $radius-md;
+        background: $surface-1;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        cursor: pointer;
+        transition: all .2s $ease;
+
+        .copy-icon {
+            height: 18px;
+            width: 18px;
+            color: $accent;
+        }
+
+        span {
+            color: $text-mid;
+            font-family: $font-mono;
+            font-size: .68em;
+        }
+
+        &:hover {
+            border-color: rgba(43, 188, 237, .5);
+            background: $surface-2;
+            box-shadow: $shadow-glow;
+        }
+
+        &.copied {
+            border-color: rgba(61, 220, 151, .5);
+
+            .copy-icon,
+            span {
+                color: $color-success;
+            }
+        }
+    }
+
+    .links-footer {
+        margin-top: auto;
+        padding-top: 32px;
+        color: $text-low;
+        font-family: $font-mono;
+        font-size: .7em;
+    }
+}

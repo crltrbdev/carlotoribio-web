@@ -1,0 +1,11 @@
+BEGIN:VCARD
+VERSION:3.0
+N:Toribio;Carlo;;;
+FN:Carlo Toribio
+TITLE:AI Architect
+EMAIL;TYPE=INTERNET:carlo.toribio.dev@gmail.com
+URL:https://carlotorib.io
+X-SOCIALPROFILE;TYPE=linkedin:https://www.linkedin.com/in/carlotoribio/
+X-SOCIALPROFILE;TYPE=github:https://github.com/crltrbdev
+ADR;TYPE=WORK:;;;San Diego;CA;;USA
+END:VCARD

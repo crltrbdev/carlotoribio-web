@@ -1,6 +1,6 @@
 import './Footer.scss';
 
-const ARCHITECTURE_LINK = 'https://github.com/crltrbdev/carlotoribio-web#architecture';
+export const ARCHITECTURE_LINK = 'https://github.com/crltrbdev/carlotoribio-web#architecture';
 
 function Footer(props) {
     return <>
