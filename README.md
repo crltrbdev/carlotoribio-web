@@ -46,6 +46,13 @@ Planned (the browser limit is bypassable with curl, so the Lambda needs its own)
 - A Turnstile check verified server-side before any OpenAI or SES call
 - OpenAI spend limits and an AWS budget alert
 
+## Roadmap
+
+SEO content work, deferred for now (technical SEO is done: crawlable HTML, structured data, sitemap, canonical tag, noindex on dev):
+- About / Experience page plus 2-3 case studies (RAG HR assistant, 7-year data validation at 99.8% accuracy, cash flow forecasting), aimed at searches like "AI Architect San Diego" and "RAG engineer"
+- Blog, reusing the `devin/blog-feature` branch. It uses hash routes (`#/blog`), which Google never indexes, so switch to real paths (`/blog/<slug>`), prerender each post's HTML and add each post to `public/sitemap.xml`
+- Every route serves the same `index.html` today, so new pages need prerendering to get their own title, description and canonical tag
+
 ## Running locally
 
 ```sh
