@@ -5,6 +5,8 @@
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#0B0F14" />
+    <!-- dark background before the bundle loads, so the crawlable copy doesn't flash white -->
+    <style>html, body { margin: 0; background: #0B0F14; }</style>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -13,8 +15,10 @@
     />
     <meta
       name="description"
-      content="Carlo Toribio, AI Architect in San Diego, CA. 15+ years building enterprise systems; RAG assistants, multi-agent workflows and streaming LLM apps. Ask the AI chatbot about his experience."
+      content="Carlo Toribio, AI Architect and Sr AI Engineer in San Diego, CA. 15+ years building enterprise systems, RAG assistants and multi-agent AI workflows."
     />
+    <link rel="canonical" href="https://carlotorib.io/" />
+    <meta property="og:site_name" content="Carlo Toribio" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://carlotorib.io/" />
     <meta property="og:title" content="Carlo Toribio · AI Architect" />
@@ -26,6 +30,10 @@
     <meta property="og:image:alt" content="Carlo Toribio" />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="Carlo Toribio · AI Architect" />
+    <meta
+      name="twitter:description"
+      content="I help teams turn AI models into reliable production systems: RAG assistants, multi-agent workflows and AI-assisted engineering."
+    />
     <meta name="twitter:image" content="https://carlotorib.io/og-image.jpg" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <!--
@@ -42,33 +50,68 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>Carlo Toribio · AI Architect</title>
+    <title>Carlo Toribio · AI Architect & Sr AI Engineer, San Diego</title>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "Carlo Toribio",
-        "jobTitle": "AI Architect",
-        "description": "AI Architect and Senior AI Engineer with 15+ years building enterprise systems: RAG assistants, multi-agent workflows and streaming LLM apps.",
-        "url": "https://carlotorib.io/",
-        "image": "https://carlotorib.io/og-image.jpg",
-        "address": {
-          "@type": "PostalAddress",
-          "addressLocality": "San Diego",
-          "addressRegion": "CA",
-          "addressCountry": "US"
-        },
-        "knowsAbout": ["Retrieval-augmented generation (RAG)", "Multi-agent systems", "Large language models", "Databricks", "Apache Spark", "AWS", "React"],
-        "sameAs": [
-          "https://www.linkedin.com/in/carlotoribio/",
-          "https://github.com/crltrbdev"
+        "@graph": [
+          {
+            "@type": "Person",
+            "@id": "https://carlotorib.io/#person",
+            "name": "Carlo Toribio",
+            "jobTitle": ["AI Architect", "Senior AI Engineer"],
+            "description": "AI Architect and Senior AI Engineer with 15+ years building enterprise systems: RAG assistants, multi-agent workflows and streaming LLM apps.",
+            "url": "https://carlotorib.io/",
+            "image": "https://carlotorib.io/og-image.jpg",
+            "email": "mailto:carlo.toribio.dev@gmail.com",
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "San Diego",
+              "addressRegion": "CA",
+              "addressCountry": "US"
+            },
+            "alumniOf": {
+              "@type": "CollegeOrUniversity",
+              "name": "Universidad Autónoma de Baja California"
+            },
+            "knowsAbout": ["Retrieval-augmented generation (RAG)", "Multi-agent systems", "Large language models", "Databricks", "Apache Spark", "AWS", "React"],
+            "sameAs": [
+              "https://www.linkedin.com/in/carlotoribio/",
+              "https://github.com/crltrbdev"
+            ]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://carlotorib.io/#website",
+            "name": "Carlo Toribio",
+            "url": "https://carlotorib.io/",
+            "publisher": { "@id": "https://carlotorib.io/#person" }
+          }
         ]
       }
     </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+    <!-- Crawlable copy for search engines and AI crawlers that don't run JavaScript. React replaces it on load. -->
+    <div id="root">
+      <main style="max-width: 640px; margin: 0 auto; padding: 56px 16px; font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #E9F2F8; background: #0B0F14; line-height: 1.6;">
+        <h1 style="margin: 0; font-size: 2em;">Carlo Toribio</h1>
+        <p style="margin: 4px 0 0; color: #9FB3C8;">AI Architect · Sr AI Engineer · San Diego, CA</p>
+        <p style="color: #9FB3C8;">
+          I help teams turn AI models into reliable production systems: RAG (retrieval-augmented generation) assistants,
+          multi-agent workflows and the platforms behind them, built over 15+ years of enterprise engineering in finance,
+          health and education. Open to AI Architect and Sr AI Engineer roles.
+        </p>
+        <ul>
+          <li><a style="color: #2BBCED;" href="%REACT_APP_RESUME_LINK%">Resume (PDF)</a></li>
+          <li><a style="color: #2BBCED;" href="https://www.linkedin.com/in/carlotoribio/">LinkedIn</a></li>
+          <li><a style="color: #2BBCED;" href="https://github.com/crltrbdev">GitHub</a></li>
+          <li><a style="color: #2BBCED;" href="https://github.com/crltrbdev/carlotoribio-web#architecture">How this site was built</a></li>
+          <li><a style="color: #2BBCED;" href="mailto:carlo.toribio.dev@gmail.com">carlo.toribio.dev@gmail.com</a></li>
+        </ul>
+      </main>
+    </div>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.

@@ -12,14 +12,14 @@ import { typeWords } from '../../util/typeWords';
 
 const HERO_GREETING = "Hi, I'm Carlo.";
 
-// Approved taglines; one is picked at random on each visit
+// Approved tagline + intro pairs; one is picked at random on each visit
 const HERO_TAGLINES = [
-    'I architect AI systems that ship.',
-    'I turn AI demos into production software.',
-    'I build production-grade RAG assistants.',
-    'I design multi-agent AI for the enterprise.',
-    'I lead teams that ship AI to production.',
-    'I turn AI models into reliable products.'
+    { tagline: 'I architect AI systems that ship.', lede: 'Not slideware: AI systems designed to run, scale and last, backed by 15+ years of enterprise engineering in finance, health and education.' },
+    { tagline: 'I turn AI demos into production software.', lede: 'The demo is the easy part. I build what comes after: the reliability, testing and scale that keep AI working when real users show up.' },
+    { tagline: 'I build production-grade RAG assistants.', lede: 'AI that knows your business because it reads your documents, and gives answers your team can check and trust.' },
+    { tagline: 'I design multi-agent AI for the enterprise.', lede: 'Teams of AI agents that split the work, hand off cleanly and get it done, designed for real enterprise workloads.' },
+    { tagline: 'I lead teams that ship AI to production.', lede: 'Clear priorities, steady releases and engineers who grow. I lead from the front and still roll up my sleeves when the work needs it.' },
+    { tagline: 'I turn AI models into reliable products.', lede: 'Less hype, more working software: chatbots, document search and automation, built on 15+ years of enterprise engineering.' }
 ];
 
 function Home(props) {
@@ -28,7 +28,7 @@ function Home(props) {
     const LINKEDIN_LINK = process.env.REACT_APP_LINKEDIN_LINK;
     const GITHUB_LINK = process.env.REACT_APP_GITHUB_LINK;
 
-    const [tagline] = useState(() => HERO_TAGLINES[Math.floor(Math.random() * HERO_TAGLINES.length)]);
+    const [{ tagline, lede }] = useState(() => HERO_TAGLINES[Math.floor(Math.random() * HERO_TAGLINES.length)]);
     const [typedGreeting, setTypedGreeting] = useState('');
     const [typedTagline, setTypedTagline] = useState('');
     const [isGreetingTyped, setIsGreetingTyped] = useState(false);
@@ -102,8 +102,8 @@ function Home(props) {
                                 <span className="accent">{typedTagline}{typedTagline && cursor}</span>
                             </span>
                         </h1>
-                        <p className="lede">
-                            RAG assistants, multi-agent workflows and the platforms behind them, built over 15+ years in finance, health and education. <span className="mobile-hide">Skip the resume and ask my AI assistant.</span>
+                        <p className={`lede ${isTyping ? '' : 'visible'}`}>
+                            {lede} <span className="cta mobile-hide">Skip the resume and ask my AI assistant.</span>
                         </p>
                     </div>
                     <div className="chat-container">

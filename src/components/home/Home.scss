@@ -206,6 +206,20 @@ $page-gutter: max(28px, calc((100% - 1180px) / 2));
                 color: $text-mid;
                 font-size: 1em;
                 line-height: 1.6;
+                // continues the tagline, so it fades in once typing ends; its space is reserved so nothing shifts
+                opacity: 0;
+                transition: opacity .4s $ease;
+
+                &.visible {
+                    opacity: 1;
+                }
+
+                // call to action on its own line on desktop (hidden on mobile by .mobile-hide)
+                @media only screen and (min-width: 769px) {
+                    .cta {
+                        display: block;
+                    }
+                }
 
                 span {
                     color: $text-hi;
