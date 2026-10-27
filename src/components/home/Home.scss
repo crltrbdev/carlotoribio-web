@@ -227,6 +227,87 @@ $page-gutter: max(28px, calc((100% - 1180px) / 2));
             }
         }
 
+        // phones only: one-line bar that replaces the hero once the chat is in use; tap to bring it back
+        .hero-compact {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+            width: 100%;
+            height: 48px;
+            padding: 0 14px;
+            border: 0;
+            border-bottom: 1px solid $stroke;
+            background: linear-gradient(90deg, rgba(43, 188, 237, .07), $surface-1 60%);
+            color: $text-mid;
+            font-size: 1em;
+            text-align: left;
+            cursor: pointer;
+            overflow: hidden;
+            animation: compact-in .45s $ease both;
+
+            // a light sweep across the bar as it appears
+            &::after {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(100deg, transparent 30%, rgba(43, 188, 237, .22) 50%, transparent 70%);
+                transform: translateX(-100%);
+                animation: compact-scan 1.1s .15s $ease both;
+                pointer-events: none;
+            }
+
+            .compact-photo {
+                height: 28px;
+                width: 28px;
+                border-radius: 50%;
+                object-fit: cover;
+                box-shadow: 0 0 0 1px rgba(43, 188, 237, .55), 0 0 12px rgba(43, 188, 237, .3);
+            }
+
+            .compact-text {
+                display: flex;
+                flex-direction: column;
+                flex: 1;
+                min-width: 0;
+                line-height: 1.25;
+
+                .compact-greeting,
+                .compact-tagline {
+                    font-weight: 600;
+                    letter-spacing: -.01em;
+                    animation: compact-text-in .4s $ease both;
+                }
+
+                .compact-greeting {
+                    color: $text-hi;
+                    font-size: .82em;
+                }
+
+                // the hero's tagline, shrunk to one line with the same gradient
+                .compact-tagline {
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    font-size: .76em;
+                    background: linear-gradient(120deg, #BDE8FA 0%, $accent 55%, #3C7FD0 100%);
+                    -webkit-background-clip: text;
+                    background-clip: text;
+                    color: transparent;
+                    -webkit-text-fill-color: transparent;
+                    // room for descenders (g, y, p) inside the clipped gradient
+                    padding-bottom: .1em;
+                    animation-delay: .08s;
+                }
+            }
+
+            .compact-chevron {
+                color: $text-low;
+                fill: $text-low;
+            }
+        }
+
         .chat-container {
             overflow: hidden;
             flex: 1 1 0;
@@ -298,6 +379,37 @@ $page-gutter: max(28px, calc((100% - 1180px) / 2));
         }
 
         .main-container {
+            // the hero folds up (height, fade, blur) so the chat gets the room
+            .hero {
+                display: grid;
+                grid-template-rows: 1fr;
+                transition: grid-template-rows .45s $ease, padding .45s $ease;
+
+                .hero-inner {
+                    min-height: 0;
+                    // clips only the bottom while folding, so the photo's ring and glow aren't cut off at the top
+                    clip-path: inset(-40px -40px 0 -40px);
+                    transition: opacity .3s $ease, transform .45s $ease, filter .3s $ease;
+                }
+            }
+
+            &.hero-collapsed .hero {
+                grid-template-rows: 0fr;
+                padding-top: 0;
+                padding-bottom: 0;
+
+                .hero-inner {
+                    opacity: 0;
+                    transform: translateY(-14px) scale(.96);
+                    filter: blur(4px);
+                }
+            }
+
+            // with the intro folded there's room to spare, so short chats start at the top instead of next to the input
+            &.hero-collapsed .chat-container .chat-panel .chat-panel-messages > :first-child {
+                margin-top: 0;
+            }
+
             .hero {
                 padding: 14px 16px 10px;
 
@@ -324,5 +436,32 @@ $page-gutter: max(28px, calc((100% - 1180px) / 2));
                 }
             }
         }
+    }
+}
+
+@keyframes compact-in {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+}
+
+@keyframes compact-scan {
+    to {
+        transform: translateX(100%);
+    }
+}
+
+@keyframes compact-text-in {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+}
+
+// the compact bar is a phone-only control; wider screens always show the full hero
+@media only screen and (min-width: 769px) {
+    .home-wrapper .main-container .hero-compact {
+        display: none;
     }
 }
