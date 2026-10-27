@@ -6,6 +6,8 @@
     flex-direction: column;
     align-items: center;
     min-height: 100%;
+    // don't shrink to the screen height when the page is taller, or the bottom padding ends up above the footer
+    flex-shrink: 0;
     max-width: 520px;
     margin: 0 auto;
     // extra bottom room, plus the iPhone home indicator area
@@ -202,10 +204,30 @@
     }
 
     .links-footer {
+        display: flex;
+        align-items: center;
+        gap: 10px;
         margin-top: auto;
         padding-top: 32px;
         color: $text-low;
         font-family: $font-mono;
         font-size: .7em;
+
+        span {
+            color: inherit;
+            font-family: inherit;
+        }
+
+        .powered-by {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .aws-icon {
+            height: 1.6em;
+            width: 1.6em;
+            fill: #FF9900;
+        }
     }
 }
