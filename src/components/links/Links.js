@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { FaAws } from 'react-icons/fa';
 import { LuArrowRight, LuBot, LuCheck, LuCode, LuContact, LuCopy, LuFileText, LuGithub, LuLinkedin, LuMail } from 'react-icons/lu';
 
 import { ARCHITECTURE_LINK } from '../footer/Footer';
@@ -89,7 +90,14 @@ function Links() {
                 ))}
             </ul>
 
-            <footer className="links-footer">© {new Date().getFullYear()} Carlo Toribio</footer>
+            <footer className="links-footer">
+                <span>© {new Date().getFullYear()} Carlo Toribio</span>
+                <span aria-hidden="true">·</span>
+                <span className="powered-by">
+                    Powered by
+                    <FaAws className="aws-icon" role="img" aria-label="AWS" />
+                </span>
+            </footer>
         </main>
     );
 }
