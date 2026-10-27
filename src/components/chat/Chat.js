@@ -38,7 +38,7 @@ function updateSpacer(messages, spacer, latestQueryId) {
     spacer.style.height = `${Math.max(0, messages.clientHeight - contentFromQuery - QUESTION_TOP_GAP)}px`;
 }
 
-function Chat() {
+function Chat({ onEngage }) {
     const NO_TOKENS_PROMPT = process.env.REACT_APP_NO_TOKENS_PROMPT;
     const GREETING_PROMPT = process.env.REACT_APP_GREETING_PROMPT;
 
@@ -130,6 +130,7 @@ function Chat() {
     }
 
     function handleChange(event) {
+        onEngage?.();
         setQuery(event.target.value);
     }
 
@@ -276,6 +277,7 @@ function Chat() {
                         placeholder="Type your question"
                         aria-label="Ask a question about Carlo"
                         value={query}
+                        onFocus={onEngage}
                         onChange={handleChange}
                         onKeyDown={handleGetCompletion} />
                 </div>
@@ -327,7 +329,9 @@ function Chat() {
                         <div
                             className="chat-panel-messages"
                             ref={scrollDivRef}
-                            onScroll={handleScroll}>
+                            onScroll={handleScroll}
+                            onTouchMove={onEngage}
+                            onWheel={onEngage}>
                             {
                                 chatItems.map(item => {
                                     return <ChatItem

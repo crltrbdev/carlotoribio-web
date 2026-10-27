@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FaAt, FaGithub } from 'react-icons/fa';
-import { FaFileLines, FaLinkedin } from 'react-icons/fa6';
+import { FaChevronDown, FaFileLines, FaLinkedin } from 'react-icons/fa6';
 
 import Chat from '../chat/Chat';
 
@@ -11,6 +11,7 @@ import logoImg from '../../assets/images/logos/logo.png';
 import { typeWords } from '../../util/typeWords';
 
 const HERO_GREETING = "Hi, I'm Carlo.";
+const MOBILE_QUERY = '(max-width: 768px)';
 
 // Approved tagline + intro pairs; one is picked at random on each visit
 const HERO_TAGLINES = [
@@ -33,6 +34,14 @@ function Home(props) {
     const [typedTagline, setTypedTagline] = useState('');
     const [isGreetingTyped, setIsGreetingTyped] = useState(false);
     const [isTyping, setIsTyping] = useState(true);
+    // On phones the hero folds into a one-line bar once the visitor starts using the chat
+    const [isHeroCollapsed, setIsHeroCollapsed] = useState(false);
+
+    function collapseHero() {
+        if (window.matchMedia?.(MOBILE_QUERY).matches) {
+            setIsHeroCollapsed(true);
+        }
+    }
 
     const typingDelay = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ? 0 : 120;
 
@@ -84,30 +93,43 @@ function Home(props) {
                         </a>
                     </div>
                 </nav>
-                <section className='main-container'>
-                    <div className="hero">
-                        <img className="hero-photo" src={facePicture} alt="Carlo Toribio" />
-                        <span className="status">
-                            <span className="dot"></span>
-                            Open to Sr AI Engineer & AI Architect roles<span className="mobile-hide"> · San Diego, CA</span>
-                        </span>
-                        <h1 aria-label={`${HERO_GREETING} ${tagline}`}>
-                            {/* Invisible full text reserves the final size so nothing shifts while typing */}
-                            <span className="ghost" aria-hidden="true">
-                                {HERO_GREETING} <span className="accent">{tagline}</span>
+                <section className={`main-container ${isHeroCollapsed ? 'hero-collapsed' : ''}`}>
+                    {isHeroCollapsed && (
+                        <button className="hero-compact" aria-label="Show intro" aria-expanded="false"
+                            onClick={() => setIsHeroCollapsed(false)}>
+                            <img className="compact-photo" src={facePicture} alt="" />
+                            <span className="compact-text">
+                                <span className="compact-greeting">{HERO_GREETING}</span>
+                                <span className="compact-tagline">{tagline}</span>
                             </span>
-                            <span className="typed" aria-hidden="true">
-                                {typedGreeting}
-                                {!typedTagline && cursor}
-                                <span className="accent">{typedTagline}{typedTagline && cursor}</span>
+                            <FaChevronDown className="compact-chevron" />
+                        </button>
+                    )}
+                    <div className="hero" aria-hidden={isHeroCollapsed}>
+                        <div className="hero-inner">
+                            <img className="hero-photo" src={facePicture} alt="Carlo Toribio" />
+                            <span className="status">
+                                <span className="dot"></span>
+                                Open to Sr AI Engineer & AI Architect roles<span className="mobile-hide"> · San Diego, CA</span>
                             </span>
-                        </h1>
-                        <p className={`lede ${isTyping ? '' : 'visible'}`}>
-                            {lede} <span className="cta mobile-hide">Skip the resume and ask my AI assistant.</span>
-                        </p>
+                            <h1 aria-label={`${HERO_GREETING} ${tagline}`}>
+                                {/* Invisible full text reserves the final size so nothing shifts while typing */}
+                                <span className="ghost" aria-hidden="true">
+                                    {HERO_GREETING} <span className="accent">{tagline}</span>
+                                </span>
+                                <span className="typed" aria-hidden="true">
+                                    {typedGreeting}
+                                    {!typedTagline && cursor}
+                                    <span className="accent">{typedTagline}{typedTagline && cursor}</span>
+                                </span>
+                            </h1>
+                            <p className={`lede ${isTyping ? '' : 'visible'}`}>
+                                {lede} <span className="cta mobile-hide">Skip the resume and ask my AI assistant.</span>
+                            </p>
+                        </div>
                     </div>
                     <div className="chat-container">
-                        <Chat />
+                        <Chat onEngage={collapseHero} />
                     </div>
                 </section>
             </section>
